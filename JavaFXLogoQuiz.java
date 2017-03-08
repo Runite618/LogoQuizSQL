@@ -10,6 +10,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -20,25 +23,35 @@ import javafx.stage.Stage;
 public class JavaFXLogoQuiz extends Application {
     
     @Override
-    public void start(Stage primaryStage) {
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            
+    public void start(Stage startStage) {
+        Label user = new Label("User: ");
+        TextField userField = new TextField ();
+        HBox userBox = new HBox();
+        userBox.getChildren().addAll(user, userField);
+        userBox.setSpacing(10);
+        
+        Button startGame = new Button();
+        startGame.setText("Start game");
+        startGame.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
+                new GameStage();
             }
         });
         
         StackPane root = new StackPane();
-        root.getChildren().add(btn);
+        root.getChildren().add(startGame);
+        root.getChildren().add(userBox);
         
         Scene scene = new Scene(root, 300, 250);
         
-        primaryStage.setTitle("Hello World!");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        startStage.setTitle("Logo quiz!");
+        startStage.setScene(scene);
+        startStage.show();
+    }
+    
+    public class GameStage extends Stage{
+        
     }
 
     /**
