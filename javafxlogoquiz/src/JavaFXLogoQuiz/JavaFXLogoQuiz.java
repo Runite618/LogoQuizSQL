@@ -5,6 +5,7 @@
  */
 package javafxlogoquiz;
 
+import java.io.File;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  *
@@ -41,7 +43,6 @@ public class JavaFXLogoQuiz extends Application
             
             @Override 
             public void handle(ActionEvent event) {
-                System.out.println("Hello world!");
                 startStage.setScene(gameScene());
                 startStage.show();
             }
@@ -59,8 +60,10 @@ public class JavaFXLogoQuiz extends Application
     public Scene gameScene()
     {
         StackPane rootGame = new StackPane();
-        Label helloWorld = new Label("Hello World: ");
-        rootGame.getChildren().add(helloWorld);
+        File file = new File("C:\\Users\\User\\Documents\\NetBeansProjects\\LogoQuiz\\javafxlogoquiz\\src\\Image\\javafx_logo_color_1.jpg");
+        Image img = new Image(file.toURI().toString());
+        ImageView imgView = new ImageView(img);
+        rootGame.getChildren().add(imgView);
         
         return new Scene(rootGame, 300, 250);
     }
