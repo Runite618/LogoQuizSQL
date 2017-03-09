@@ -65,7 +65,7 @@ public class JavaFXLogoQuiz extends Application
         ImageView imgView = new ImageView(img);
         rootGame.getChildren().add(imgView);
         
-        return new Scene(rootGame, 300, 250);
+        return new Scene(rootGame, 1500, 1000);
     }
 
     /**
