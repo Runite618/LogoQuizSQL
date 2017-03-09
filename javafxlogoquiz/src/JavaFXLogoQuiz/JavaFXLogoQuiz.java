@@ -29,21 +29,25 @@ public class JavaFXLogoQuiz extends Application
         Label user = new Label("User: ");
         TextField userField = new TextField ();
         HBox userBox = new HBox();
+        StackPane root = new StackPane();
         userBox.getChildren().addAll(user, userField);
         userBox.setSpacing(10);
         
-        Button startGame = new Button();
-        startGame.setText("Start game");
+        root.getChildren().add(userBox);
+        
+        Button startGame = new Button("Start game");
+                
         startGame.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
+            
+            @Override 
             public void handle(ActionEvent event) {
-                new GameStage();
+                System.out.println("Hello world!");
+                startStage.setScene(gameScene());
+                startStage.show();
             }
         });
         
-        StackPane root = new StackPane();
         root.getChildren().add(startGame);
-        root.getChildren().add(userBox);
         
         Scene scene = new Scene(root, 300, 250);
         
@@ -52,9 +56,13 @@ public class JavaFXLogoQuiz extends Application
         startStage.show();
     }
     
-    public class GameStage extends Stage
+    public Scene gameScene()
     {
+        StackPane rootGame = new StackPane();
+        Label helloWorld = new Label("Hello World: ");
+        rootGame.getChildren().add(helloWorld);
         
+        return new Scene(rootGame, 300, 250);
     }
 
     /**
