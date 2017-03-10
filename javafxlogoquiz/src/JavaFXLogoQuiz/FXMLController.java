@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -36,7 +37,7 @@ public class FXMLController implements Initializable{
             @Override 
             public void handle(ActionEvent event) {
                 Stage stage;
-                Parent root;
+                Parent root = null;
                 
                 stage = (Stage) startGame.getScene().getWindow();
                 try {
@@ -44,6 +45,10 @@ public class FXMLController implements Initializable{
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
             }
         });
         

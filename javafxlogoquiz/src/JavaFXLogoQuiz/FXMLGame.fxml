@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import java.util.*?>
@@ -7,8 +8,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXLogoQuiz.FXMLControllerGame">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXLogoQuiz.FXMLControllerGame">
     <stylesheets>
-        <URL value="@fxmlgame.css"/>
+        <URL value="@fxmlgame.css" />
     </stylesheets>
+   <children>
+      <Label layoutX="202.0" layoutY="125.0" text="GAME">
+         <font>
+            <Font size="72.0" />
+         </font>
+      </Label>
+   </children>
 </AnchorPane>
