@@ -40,17 +40,7 @@ public class JavaFXLogoQuiz extends Application
         catch(IOException e)
         {
             e.printStackTrace();
-        }
-        
-        
-        Label user = new Label("User: ");
-        TextField userField = new TextField ();
-        HBox userBox = new HBox();
-        StackPane root = new StackPane();
-        userBox.getChildren().addAll(user, userField);
-        userBox.setSpacing(10);
-        
-        root.getChildren().add(userBox);     
+        }     
         
         Scene scene = new Scene(startPane);
         
@@ -58,29 +48,6 @@ public class JavaFXLogoQuiz extends Application
         startStage.setScene(scene);
         startStage.show();
     }
-    
-    public Scene gameScene()
-    {
-        StackPane rootGame = new StackPane();
-        
-        Logo logoOne = new Logo("C:\\Users\\User\\Documents\\NetBeansProjects\\LogoQuiz\\javafxlogoquiz\\src\\Image\\javafx_logo_color_1.jpg", 1);
-        
-        File file = new File(logoOne.Url);
-        Image img = new Image(file.toURI().toString());
-        ImageView imgView = new ImageView(img);
-        
-        Label logo = new Label("Logo: ");
-        TextField logoField = new TextField ();
-        HBox logoBox = new HBox();;
-        logoBox.getChildren().addAll(logo, logoField);
-        logoBox.setSpacing(10);
-        
-        rootGame.getChildren().add(imgView);
-        rootGame.getChildren().add(logoBox);
-
-        return new Scene(rootGame, 1500, 1000);
-    }
-
     /**
      * @param args the command line arguments
      */
@@ -88,16 +55,4 @@ public class JavaFXLogoQuiz extends Application
     {
         launch(args);
     }  
-    
-    public class Logo
-    {
-        public String Url;
-        public int Point;
-        
-        public Logo(String url, int point)
-        {
-            Url = url;
-            Point = point;
-        }
-    }
 }
