@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javafxlogoquiz;
+package JavaFXLogoQuiz;
 
 import java.io.File;
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,6 +21,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 
 /**
  *
@@ -26,8 +30,19 @@ import javafx.scene.image.ImageView;
 public class JavaFXLogoQuiz extends Application 
 {
     @Override
-    public void start(Stage startStage) 
+    public void start(Stage startStage)
     {
+        AnchorPane startPane = null;
+        try 
+        {
+            startPane = (AnchorPane) FXMLLoader.load(JavaFXLogoQuiz.class.getResource("FXMLStart.fxml"));
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+        
+        
         Label user = new Label("User: ");
         TextField userField = new TextField ();
         HBox userBox = new HBox();
@@ -50,7 +65,7 @@ public class JavaFXLogoQuiz extends Application
         
         root.getChildren().add(startGame);
         
-        Scene scene = new Scene(root, 300, 250);
+        Scene scene = new Scene(startPane);
         
         startStage.setTitle("Logo quiz!");
         startStage.setScene(scene);
