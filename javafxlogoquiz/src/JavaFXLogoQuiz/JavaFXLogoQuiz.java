@@ -50,20 +50,7 @@ public class JavaFXLogoQuiz extends Application
         userBox.getChildren().addAll(user, userField);
         userBox.setSpacing(10);
         
-        root.getChildren().add(userBox);
-        
-        Button startGame = new Button("Start game");
-                
-        startGame.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override 
-            public void handle(ActionEvent event) {
-                startStage.setScene(gameScene());
-                startStage.show();
-            }
-        });
-        
-        root.getChildren().add(startGame);
+        root.getChildren().add(userBox);     
         
         Scene scene = new Scene(startPane);
         
