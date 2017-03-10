@@ -19,33 +19,153 @@ import javafx.stage.Stage;
 
 public class FXMLControllerGame implements Initializable{
 
+        @FXML
+    private Label logo2;
+
     @FXML
-    private TextField logoField;
+    private HBox logoBox3;
+
+    @FXML
+    private HBox logoBox2;
+
+    @FXML
+    private HBox logoBox5;
+
+    @FXML
+    private HBox logoBox4;
+
+    @FXML
+    private HBox logoBox7;
+
+    @FXML
+    private HBox logoBox6;
+
+    @FXML
+    private HBox logoBox9;
+
+    @FXML
+    private Label logo8;
 
     @FXML
     private HBox logoBox;
 
     @FXML
-    private Label logo;
+    private HBox logoBox8;
+
+    @FXML
+    private Label logo7;
 
     @FXML
     private ImageView imgView;
 
+    @FXML
+    private Label logo9;
+
+    @FXML
+    private Label logo4;
+
+    @FXML
+    private Label logo3;
+
+    @FXML
+    private Label logo6;
+
+    @FXML
+    private Label logo5;
+
+    @FXML
+    private TextField logoField10;
+
+    @FXML
+    private Label logo10;
+
+    @FXML
+    private TextField logoField;
+
+    @FXML
+    private Label logo;
+
+    @FXML
+    private HBox logoBox10;
+
+    @FXML
+    private ImageView imgView8;
+
+    @FXML
+    private ImageView imgView9;
+
+    @FXML
+    private ImageView imgView10;
+
+    @FXML
+    private TextField logoField9;
+
+    @FXML
+    private TextField logoField8;
+
+    @FXML
+    private TextField logoField7;
+
+    @FXML
+    private ImageView imgView2;
+
+    @FXML
+    private TextField logoField6;
+
+    @FXML
+    private ImageView imgView3;
+
+    @FXML
+    private TextField logoField5;
+
+    @FXML
+    private TextField logoField4;
+
+    @FXML
+    private TextField logoField3;
+
+    @FXML
+    private TextField logoField2;
+
+    @FXML
+    private ImageView imgView6;
+
+    @FXML
+    private ImageView imgView7;
+
+    @FXML
+    private ImageView imgView4;
+
+    @FXML
+    private ImageView imgView5;
+
     @Override
     public void initialize(URL url, ResourceBundle resource)
     {
-        Logo logoOne = new Logo("C:\\Users\\User\\Documents\\NetBeansProjects\\LogoQuiz\\javafxlogoquiz\\src\\Image\\ATP_400x400.jpeg", 2);
-        Logo logoTwo = new Logo("C:\\Users\\User\\Documents\\NetBeansProjects\\LogoQuiz\\javafxlogoquiz\\src\\Image\\Aston_Villa.svg.png", 1);
-        Logo logoThree = new Logo("C:\\Users\\User\\Documents\\NetBeansProjects\\LogoQuiz\\javafxlogoquiz\\src\\Image\\Boots.svg.png", 1);
-        Logo logoFour = new Logo("C:\\Users\\User\\Documents\\NetBeansProjects\\LogoQuiz\\javafxlogoquiz\\src\\Image\\Google_2015_logo.svg.png", 1);
-        Logo logoFive = new Logo("C:\\Users\\User\\Documents\\NetBeansProjects\\LogoQuiz\\javafxlogoquiz\\src\\Image\\Minecraft-logo-transparent-background-ut05tirq.png", 1);
-        Logo logoSix = new Logo("C:\\Users\\User\\Documents\\NetBeansProjects\\LogoQuiz\\javafxlogoquiz\\src\\Image\\Northern_large.jpg", 1);
-        Logo logoSeven = new Logo("C:\\Users\\User\\Documents\\NetBeansProjects\\LogoQuiz\\javafxlogoquiz\\src\\Image\\Premier_League_Logo.svg.png", 1);
-        Logo logoEight = new Logo("C:\\Users\\User\\Documents\\NetBeansProjects\\LogoQuiz\\javafxlogoquiz\\src\\Image\\Tesco-logo.png", 1);
-        Logo logoNine = new Logo("C:\\Users\\User\\Documents\\NetBeansProjects\\LogoQuiz\\javafxlogoquiz\\src\\Image\\javafx_logo_color_1.jpg", 1);
-        Logo logoTen = new Logo("C:\\Users\\User\\Documents\\NetBeansProjects\\LogoQuiz\\javafxlogoquiz\\src\\Image\\shield.jpg", 1);
+        Logo arrayLogos[] = new Logo[10];
         
-        File file = new File(logoOne.Url);
+        arrayLogos[0] = new Logo("C:\\Users\\User\\Documents\\NetBeansProjects\\LogoQuiz\\javafxlogoquiz\\src\\Image\\ATP_400x400.jpeg", 2);
+        arrayLogos[1] = new Logo("C:\\Users\\User\\Documents\\NetBeansProjects\\LogoQuiz\\javafxlogoquiz\\src\\Image\\Aston_Villa.svg.png", 1);
+        arrayLogos[2] = new Logo("C:\\Users\\User\\Documents\\NetBeansProjects\\LogoQuiz\\javafxlogoquiz\\src\\Image\\Boots.svg.png", 1);
+        arrayLogos[3] = new Logo("C:\\Users\\User\\Documents\\NetBeansProjects\\LogoQuiz\\javafxlogoquiz\\src\\Image\\Google_2015_logo.svg.png", 1);
+        arrayLogos[4] = new Logo("C:\\Users\\User\\Documents\\NetBeansProjects\\LogoQuiz\\javafxlogoquiz\\src\\Image\\Minecraft-logo-transparent-background-ut05tirq.png", 1);
+        arrayLogos[5] = new Logo("C:\\Users\\User\\Documents\\NetBeansProjects\\LogoQuiz\\javafxlogoquiz\\src\\Image\\Northern_large.jpg", 1);
+        arrayLogos[6] = new Logo("C:\\Users\\User\\Documents\\NetBeansProjects\\LogoQuiz\\javafxlogoquiz\\src\\Image\\Premier_League_Logo.svg.png", 1);
+        arrayLogos[7] = new Logo("C:\\Users\\User\\Documents\\NetBeansProjects\\LogoQuiz\\javafxlogoquiz\\src\\Image\\Tesco-logo.png", 1);
+        arrayLogos[8] = new Logo("C:\\Users\\User\\Documents\\NetBeansProjects\\LogoQuiz\\javafxlogoquiz\\src\\Image\\javafx_logo_color_1.jpg", 1);
+        arrayLogos[9] = new Logo("C:\\Users\\User\\Documents\\NetBeansProjects\\LogoQuiz\\javafxlogoquiz\\src\\Image\\shield.jpg", 1);
+        
+        int count = 0;
+        
+        for (Logo logo : arrayLogos)
+        {
+            SetImage(logo, count);
+            count++;
+        }
+    }
+    
+    public void SetImage(Logo logo, int count) {
+        File file = new File(logo.Url);
         Image img = null;
         try {
             img = new Image(file.toURI().toURL().toString());
