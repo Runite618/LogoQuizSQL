@@ -1,5 +1,6 @@
 package JavaFXLogoQuiz;
 
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -41,7 +42,7 @@ public class FXMLController implements Initializable{
                 
                 stage = (Stage) startGame.getScene().getWindow();
                 try {
-                    root = FXMLLoader.load(getClass().getResource("FXMLGame.fxml"));
+                    root = FXMLLoader.load(getClass().getResource("C:\\Users\\matth\\Documents\\LogoQuiz\\JavaFXLogoQuiz\\src\\bin\\main\\resources\\fxml\\FXMLGame.fxml"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -51,6 +52,5 @@ public class FXMLController implements Initializable{
                 stage.show();
             }
         });
-        
     }
 }

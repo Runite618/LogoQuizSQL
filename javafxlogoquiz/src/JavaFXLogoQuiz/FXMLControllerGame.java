@@ -3,6 +3,8 @@ package JavaFXLogoQuiz;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashSet;
+import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -155,37 +157,51 @@ public class FXMLControllerGame implements Initializable{
         arrayLogos[8] = new Logo("src\\images\\javafx_logo_color_1.jpg", 1);
         arrayLogos[9] = new Logo("src\\images\\2437538b6e14481072d15cfc0bd76e6b_alienware-releases-4-new-alienware-logo-hd-clipart_500-500.jpg", 1);
         arrayLogos[10] = new Logo("src\\images\\5007__super_bowl-primary-2016.png", 1);
+        arrayLogos[11] = new Logo("src\\images\\519px-Tottenham_Hotspur.svg.png", 1);
+        arrayLogos[12] = new Logo("src\\images\\573f78ba4ec6dda5a2374bb5142ef614.jpg", 1);
+        arrayLogos[13] = new Logo("src\\images\\Aviva_Premiership_logo.svg.png", 1);
+        arrayLogos[14] = new Logo("src\\images\\Carlsberg-logo-4C1D97A3C4-seeklogo.com.gif", 1);
+        arrayLogos[15] = new Logo("src\\images\\Edgbaston-Priory-Club_logo_350x350px-300x300.jpg", 1);
+        arrayLogos[16] = new Logo("src\\images\\EvianLogo2.svg.png", 1);
+        arrayLogos[17] = new Logo("src\\images\\Google_Chrome_icon_(2011).svg.png", 1);
+        arrayLogos[18] = new Logo("src\\images\\Mario_kart_first_logo.png", 1);
+        arrayLogos[19] = new Logo("src\\images\\Middlesbrough_FC_crest.svg.png", 1);
+        arrayLogos[20] = new Logo("src\\images\\The_Legend_of_Zelda_-_Ocarina_of_Time_(logo).png", 1);
+        arrayLogos[21] = new Logo("src\\images\\Thinktank%20Logo.jpg", 1);
+        arrayLogos[22] = new Logo("src\\images\\West_Bromwich_Albion.svg.png", 1);
+        arrayLogos[23] = new Logo("src\\images\\guidelines-logo.7ea045a4e288.png", 1);
+        arrayLogos[24] = new Logo("src\\images\\mac-birmingham-logo.jpg", 1);
+        arrayLogos[25] = new Logo("src\\images\\sainsbury_logo.png", 1);
+        arrayLogos[26] = new Logo("src\\images\\thinkcentre-logo.jpg", 1);
+        arrayLogos[27] = new Logo("src\\images\\windows-logo.png", 1);
+        arrayLogos[28] = new Logo("src\\images\\shield.jpg", 1);
+        arrayLogos[29] = new Logo("src\\images\\IE9.png", 1);
         
-//        arrayLogos[11] = new Logo("src\\images\\519px-Tottenham_Hotspur.svg.png", 1);
-//        arrayLogos[12] = new Logo("src\\images\\573f78ba4ec6dda5a2374bb5142ef614.jpg", 1);
-//        arrayLogos[13] = new Logo("src\\images\\Aviva_Premiership_logo.svg.png", 1);
-//        arrayLogos[14] = new Logo("src\\images\\Carlsberg-logo-4C1D97A3C4-seeklogo.com.gif", 1);
-//        arrayLogos[15] = new Logo("src\\images\\Edgbaston-Priory-Club_logo_350x350px-300x300.jpg", 1);
-//        arrayLogos[16] = new Logo("src\\images\\EvianLogo2.svg.png", 1);
-//        arrayLogos[17] = new Logo("src\\images\\Google_Chrome_icon_(2011).svg.png", 1);
-//        arrayLogos[18] = new Logo("src\\images\\Mario_kart_first_logo.png", 1);
-//        arrayLogos[19] = new Logo("src\\images\\Middlesbrough_FC_crest.svg.png", 1);
-//        arrayLogos[20] = new Logo("src\\images\\The_Legend_of_Zelda_-_Ocarina_of_Time_(logo).png", 1);
-//        arrayLogos[21] = new Logo("src\\images\\Thinktank%20Logo.jpg", 1);
-//        arrayLogos[22] = new Logo("src\\images\\West_Bromwich_Albion.svg.png", 1);
-//        arrayLogos[23] = new Logo("src\\images\\guidelines-logo.7ea045a4e288.png", 1);
-//        arrayLogos[24] = new Logo("src\\images\\mac-birmingham-logo.jpg", 1);
-//        arrayLogos[25] = new Logo("src\\images\\sainsbury_logo.png", 1);
-//        arrayLogos[26] = new Logo("src\\images\\thinkcentre-logo.jpg", 1);
-//        arrayLogos[27] = new Logo("src\\images\\windows-logo.png", 1);
-//        arrayLogos[28] = new Logo("src\\images\\shield.jpg", 1);
-//        arrayLogos[29] = new Logo("src\\images\\IE9.png", 1);
+        HashSet<Logo> chosenLogos = new HashSet<Logo>();
+        for (int count = 0; count < 10; count++) 
+        {
+            Logo logo;
+            do
+            {
+                logo = getRandom(arrayLogos);
+            } 
+            while (chosenLogos.contains(logo));
+            chosenLogos.add(logo);
+        }
         
-        SetImage(arrayLogos[0], imgView);
-        SetImage(arrayLogos[1], imgView2);
-        SetImage(arrayLogos[2], imgView3);
-        SetImage(arrayLogos[3], imgView4);
-        SetImage(arrayLogos[4], imgView5);
-        SetImage(arrayLogos[5], imgView6);
-        SetImage(arrayLogos[6], imgView7);
-        SetImage(arrayLogos[7], imgView8);
-        SetImage(arrayLogos[8], imgView9);
-        SetImage(arrayLogos[9], imgView10);
+        Logo arrayChosenLogos[] = new Logo[10];
+        arrayChosenLogos = (Logo[]) chosenLogos.toArray();
+        
+        SetImage(arrayChosenLogos[0], imgView);
+        SetImage(arrayChosenLogos[1], imgView2);
+        SetImage(arrayChosenLogos[2], imgView3);
+        SetImage(arrayChosenLogos[3], imgView4);
+        SetImage(arrayChosenLogos[4], imgView5);
+        SetImage(arrayChosenLogos[5], imgView6);
+        SetImage(arrayChosenLogos[6], imgView7);
+        SetImage(arrayChosenLogos[7], imgView8);
+        SetImage(arrayChosenLogos[8], imgView9);
+        SetImage(arrayChosenLogos[9], imgView10);
     }
     
     public void SetImage(Logo logo, ImageView imgView) {
@@ -210,4 +226,9 @@ public class FXMLControllerGame implements Initializable{
             Point = point;
         }
     }
+    
+    public static Logo getRandom(Logo[] array) {
+        int rnd = new Random().nextInt(array.length);
+        return array[rnd];
+}
 }
