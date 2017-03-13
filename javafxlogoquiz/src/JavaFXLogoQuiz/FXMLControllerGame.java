@@ -142,7 +142,7 @@ public class FXMLControllerGame implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resource)
     {
-        Logo arrayLogos[] = new Logo[10];
+        Logo arrayLogos[] = new Logo[30];
         
         arrayLogos[0] = new Logo("src\\images\\ATP_400x400.jpeg", 2);
         arrayLogos[1] = new Logo("src\\images\\Aston_Villa.svg.png", 1);
@@ -153,7 +153,28 @@ public class FXMLControllerGame implements Initializable{
         arrayLogos[6] = new Logo("src\\images\\Premier_League_Logo.svg.png", 1);
         arrayLogos[7] = new Logo("src\\images\\Tesco-logo.png", 1);
         arrayLogos[8] = new Logo("src\\images\\javafx_logo_color_1.jpg", 1);
-        arrayLogos[9] = new Logo("src\\images\\shield.jpg", 1);
+        arrayLogos[9] = new Logo("src\\images\\2437538b6e14481072d15cfc0bd76e6b_alienware-releases-4-new-alienware-logo-hd-clipart_500-500.jpg", 1);
+        arrayLogos[10] = new Logo("src\\images\\5007__super_bowl-primary-2016.png", 1);
+        
+//        arrayLogos[11] = new Logo("src\\images\\519px-Tottenham_Hotspur.svg.png", 1);
+//        arrayLogos[12] = new Logo("src\\images\\573f78ba4ec6dda5a2374bb5142ef614.jpg", 1);
+//        arrayLogos[13] = new Logo("src\\images\\Aviva_Premiership_logo.svg.png", 1);
+//        arrayLogos[14] = new Logo("src\\images\\Carlsberg-logo-4C1D97A3C4-seeklogo.com.gif", 1);
+//        arrayLogos[15] = new Logo("src\\images\\Edgbaston-Priory-Club_logo_350x350px-300x300.jpg", 1);
+//        arrayLogos[16] = new Logo("src\\images\\EvianLogo2.svg.png", 1);
+//        arrayLogos[17] = new Logo("src\\images\\Google_Chrome_icon_(2011).svg.png", 1);
+//        arrayLogos[18] = new Logo("src\\images\\Mario_kart_first_logo.png", 1);
+//        arrayLogos[19] = new Logo("src\\images\\Middlesbrough_FC_crest.svg.png", 1);
+//        arrayLogos[20] = new Logo("src\\images\\The_Legend_of_Zelda_-_Ocarina_of_Time_(logo).png", 1);
+//        arrayLogos[21] = new Logo("src\\images\\Thinktank%20Logo.jpg", 1);
+//        arrayLogos[22] = new Logo("src\\images\\West_Bromwich_Albion.svg.png", 1);
+//        arrayLogos[23] = new Logo("src\\images\\guidelines-logo.7ea045a4e288.png", 1);
+//        arrayLogos[24] = new Logo("src\\images\\mac-birmingham-logo.jpg", 1);
+//        arrayLogos[25] = new Logo("src\\images\\sainsbury_logo.png", 1);
+//        arrayLogos[26] = new Logo("src\\images\\thinkcentre-logo.jpg", 1);
+//        arrayLogos[27] = new Logo("src\\images\\windows-logo.png", 1);
+//        arrayLogos[28] = new Logo("src\\images\\shield.jpg", 1);
+//        arrayLogos[29] = new Logo("src\\images\\IE9.png", 1);
         
         SetImage(arrayLogos[0], imgView);
         SetImage(arrayLogos[1], imgView2);
