@@ -14,75 +14,75 @@
         <URL value="@fxmlgame.css" />
     </stylesheets>
    <children>
-      <ImageView fx:id="imgView" fitHeight="91.0" fitWidth="121.0" layoutX="92.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
-      <HBox fx:id="logoBox" layoutX="48.0" layoutY="118.0" prefHeight="25.0" prefWidth="188.0">
+      <ImageView fx:id="imgView" fitHeight="91.0" fitWidth="121.0" layoutX="109.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+      <HBox fx:id="logoBox" layoutX="48.0" layoutY="118.0" prefHeight="25.0" prefWidth="207.0">
          <children>
-            <Label fx:id="logo" text="Logo: " />
+            <Label fx:id="logo" text="Logo 1 : " />
             <TextField fx:id="logoField" />
          </children>
       </HBox>
-      <ImageView fx:id="imgView2" fitHeight="91.0" fitWidth="121.0" layoutX="315.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
-      <HBox fx:id="logoBox2" layoutX="272.0" layoutY="118.0" prefHeight="25.0" prefWidth="188.0">
+      <ImageView fx:id="imgView2" fitHeight="91.0" fitWidth="121.0" layoutX="335.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+      <HBox fx:id="logoBox2" layoutX="272.0" layoutY="118.0" prefHeight="25.0" prefWidth="207.0">
          <children>
-            <Label fx:id="logo2" text="Logo: " />
+            <Label fx:id="logo2" text="Logo 2:" />
             <TextField fx:id="logoField2" />
          </children>
       </HBox>
-      <ImageView fx:id="imgView3" fitHeight="91.0" fitWidth="121.0" layoutX="553.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
-      <HBox fx:id="logoBox3" layoutX="509.0" layoutY="118.0" prefHeight="25.0" prefWidth="188.0">
+      <ImageView fx:id="imgView3" fitHeight="91.0" fitWidth="121.0" layoutX="564.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+      <HBox fx:id="logoBox3" layoutX="509.0" layoutY="118.0" prefHeight="25.0" prefWidth="207.0">
          <children>
-            <Label fx:id="logo3" text="Logo: " />
+            <Label fx:id="logo3" text="Logo 3: " />
             <TextField fx:id="logoField3" />
          </children>
       </HBox>
-      <ImageView fx:id="imgView4" fitHeight="91.0" fitWidth="121.0" layoutX="809.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
-      <HBox fx:id="logoBox4" layoutX="758.0" layoutY="118.0" prefHeight="25.0" prefWidth="188.0">
+      <ImageView fx:id="imgView4" fitHeight="91.0" fitWidth="121.0" layoutX="817.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+      <HBox fx:id="logoBox4" layoutX="758.0" layoutY="118.0" prefHeight="25.0" prefWidth="199.0">
          <children>
-            <Label fx:id="logo4" text="Logo: " />
+            <Label fx:id="logo4" text="Logo 4: " />
             <TextField fx:id="logoField4" />
          </children>
       </HBox>
-      <HBox fx:id="logoBox5" layoutX="999.0" layoutY="119.0" prefHeight="25.0" prefWidth="188.0">
+      <HBox fx:id="logoBox5" layoutX="999.0" layoutY="119.0" prefHeight="25.0" prefWidth="199.0">
          <children>
-            <Label fx:id="logo5" text="Logo: " />
+            <Label fx:id="logo5" text="Logo 5: " />
             <TextField fx:id="logoField5" />
          </children>
       </HBox>
-      <ImageView fx:id="imgView5" fitHeight="91.0" fitWidth="121.0" layoutX="1047.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
-      <HBox fx:id="logoBox10" layoutX="998.0" layoutY="353.0" prefHeight="25.0" prefWidth="188.0">
+      <ImageView fx:id="imgView5" fitHeight="91.0" fitWidth="121.0" layoutX="1061.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+      <HBox fx:id="logoBox10" layoutX="998.0" layoutY="353.0" prefHeight="25.0" prefWidth="207.0">
          <children>
-            <Label fx:id="logo10" text="Logo: " />
+            <Label fx:id="logo10" text="Logo 10: " />
             <TextField fx:id="logoField10" />
          </children>
       </HBox>
-      <HBox fx:id="logoBox9" layoutX="758.0" layoutY="353.0" prefHeight="25.0" prefWidth="188.0">
+      <HBox fx:id="logoBox9" layoutX="758.0" layoutY="353.0" prefHeight="25.0" prefWidth="199.0">
          <children>
-            <Label fx:id="logo9" text="Logo: " />
+            <Label fx:id="logo9" text="Logo 9: " />
             <TextField fx:id="logoField9" />
          </children>
       </HBox>
-      <HBox fx:id="logoBox8" layoutX="509.0" layoutY="353.0" prefHeight="25.0" prefWidth="188.0">
+      <HBox fx:id="logoBox8" layoutX="509.0" layoutY="353.0" prefHeight="25.0" prefWidth="207.0">
          <children>
-            <Label fx:id="logo8" text="Logo: " />
+            <Label fx:id="logo8" text="Logo 8: " />
             <TextField fx:id="logoField8" />
          </children>
       </HBox>
-      <HBox fx:id="logoBox7" layoutX="282.0" layoutY="353.0" prefHeight="25.0" prefWidth="188.0">
+      <HBox fx:id="logoBox7" layoutX="282.0" layoutY="353.0" prefHeight="25.0" prefWidth="207.0">
          <children>
-            <Label fx:id="logo7" text="Logo: " />
+            <Label fx:id="logo7" text="Logo 7: " />
             <TextField fx:id="logoField7" />
          </children>
       </HBox>
-      <HBox fx:id="logoBox6" layoutX="48.0" layoutY="353.0" prefHeight="25.0" prefWidth="188.0">
+      <HBox fx:id="logoBox6" layoutX="48.0" layoutY="353.0" prefHeight="25.0" prefWidth="207.0">
          <children>
-            <Label fx:id="logo6" text="Logo: " />
+            <Label fx:id="logo6" text="Logo 6: " />
             <TextField fx:id="logoField6" />
          </children>
       </HBox>
-      <ImageView fx:id="imgView6" fitHeight="91.0" fitWidth="121.0" layoutX="92.0" layoutY="243.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="imgView7" fitHeight="91.0" fitWidth="121.0" layoutX="328.0" layoutY="243.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="imgView8" fitHeight="91.0" fitWidth="121.0" layoutX="553.0" layoutY="243.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="imgView9" fitHeight="91.0" fitWidth="121.0" layoutX="809.0" layoutY="243.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="imgView10" fitHeight="91.0" fitWidth="121.0" layoutX="1047.0" layoutY="243.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgView6" fitHeight="91.0" fitWidth="121.0" layoutX="109.0" layoutY="243.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgView7" fitHeight="91.0" fitWidth="121.0" layoutX="335.0" layoutY="243.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgView8" fitHeight="91.0" fitWidth="121.0" layoutX="564.0" layoutY="243.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgView9" fitHeight="91.0" fitWidth="121.0" layoutX="823.0" layoutY="243.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgView10" fitHeight="91.0" fitWidth="121.0" layoutX="1061.0" layoutY="243.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>
