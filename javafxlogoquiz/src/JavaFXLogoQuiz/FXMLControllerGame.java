@@ -184,6 +184,7 @@ public class FXMLControllerGame implements Initializable {
     public Logo[] setLogoArray() {
         Logo[] arrayLogos = new Logo[30];
 
+        // Stores relevant logo info in new Logo object instances
         arrayLogos[0] = new Logo("ATP", "src\\images\\ATP_400x400.jpeg", 1);
         arrayLogos[1] = new Logo("Aston Villa", "src\\images\\Aston_Villa.svg.png", 1);
         arrayLogos[2] = new Logo("Boots", "src\\images\\Boots.svg.png", 1);
@@ -260,6 +261,7 @@ public class FXMLControllerGame implements Initializable {
         imgView.setImage(img);
     }
 
+    // When you press submit, this method happens
     public void submitPress(Logo[] arrayChosenLogos) {
         int total = logoTotal(arrayChosenLogos);
 
@@ -284,6 +286,7 @@ public class FXMLControllerGame implements Initializable {
 
         String gottenText = "";
 
+        // Compares the count index to what logoField is required
         switch (count) {
             case 1:
                 gottenText = logoField.getText();
