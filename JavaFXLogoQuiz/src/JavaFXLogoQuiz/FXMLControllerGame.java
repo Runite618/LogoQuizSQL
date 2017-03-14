@@ -3,7 +3,9 @@ package JavaFXLogoQuiz;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -146,7 +148,7 @@ public class FXMLControllerGame implements Initializable{
     {
         Logo arrayLogos[] = new Logo[30];
         
-        arrayLogos[0] = new Logo("src\\images\\ATP_400x400.jpeg", 2);
+        arrayLogos[0] = new Logo("src\\images\\ATP_400x400.jpeg", 1);
         arrayLogos[1] = new Logo("src\\images\\Aston_Villa.svg.png", 1);
         arrayLogos[2] = new Logo("src\\images\\Boots.svg.png", 1);
         arrayLogos[3] = new Logo("src\\images\\Google_2015_logo.svg.png", 1);
@@ -177,7 +179,7 @@ public class FXMLControllerGame implements Initializable{
         arrayLogos[28] = new Logo("src\\images\\shield.jpg", 1);
         arrayLogos[29] = new Logo("src\\images\\IE9.png", 1);
         
-        HashSet<Logo> chosenLogos = new HashSet<Logo>();
+        List<Logo> chosenLogos = new ArrayList<Logo>();
         for (int count = 0; count < 10; count++) 
         {
             Logo logo;
@@ -189,8 +191,7 @@ public class FXMLControllerGame implements Initializable{
             chosenLogos.add(logo);
         }
         
-        Logo arrayChosenLogos[] = new Logo[10];
-        arrayChosenLogos = (Logo[]) chosenLogos.toArray();
+        Logo[] arrayChosenLogos = chosenLogos.toArray(new Logo[chosenLogos.size()]);
         
         SetImage(arrayChosenLogos[0], imgView);
         SetImage(arrayChosenLogos[1], imgView2);
