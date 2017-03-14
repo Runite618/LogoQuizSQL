@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="418.0" prefWidth="1232.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXLogoQuiz.FXMLControllerGame">
+<AnchorPane id="AnchorPane" prefHeight="461.0" prefWidth="1232.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXLogoQuiz.FXMLControllerGame">
     <stylesheets>
         <URL value="@fxmlgame.css" />
     </stylesheets>
@@ -84,5 +84,6 @@
       <ImageView fx:id="imgView8" fitHeight="91.0" fitWidth="121.0" layoutX="564.0" layoutY="243.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="imgView9" fitHeight="91.0" fitWidth="121.0" layoutX="823.0" layoutY="243.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="imgView10" fitHeight="91.0" fitWidth="121.0" layoutX="1061.0" layoutY="243.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="submit" layoutX="1073.0" layoutY="415.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="113.0" text="Submit" />
    </children>
 </AnchorPane>

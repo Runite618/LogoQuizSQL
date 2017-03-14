@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXLogoQuiz.FXMLControllerScore">
+    <stylesheets>
+        <URL value="@fxmlscore.css" />
+    </stylesheets>
+   <children>
+      <HBox fx:id="scoreBox" layoutX="191.0" layoutY="185.0" prefHeight="30.0" prefWidth="184.0">
+         <children>
+            <Label fx:id="score" text="Score: " />
+            <TextField fx:id="scoreField" prefHeight="8.0" prefWidth="149.0" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
