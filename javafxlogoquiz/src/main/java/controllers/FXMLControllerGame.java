@@ -1,4 +1,4 @@
-package JavaFXLogoQuiz;
+package main.java.controllers;
 
 import java.io.File;
 import java.io.IOException;
