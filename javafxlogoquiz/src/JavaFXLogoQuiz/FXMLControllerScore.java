@@ -62,11 +62,16 @@ public class FXMLControllerScore implements Initializable {
             @Override
             public void handle(ActionEvent event) 
             {
-                DecimalFormat myFormatter = new DecimalFormat("##");
-                String output = myFormatter.format(index);
-                System.out.print(index);
-                scoreField.setText(output);
+                formatTextField();
             }
         });
+    }
+    
+    public void formatTextField()
+    {
+        DecimalFormat myFormatter = new DecimalFormat("##");
+        String output = myFormatter.format(index);
+        System.out.print(index);
+        scoreField.setText(output);
     }
 }
