@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXLogoQuiz.FXMLControllerScore">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXLogoQuiz.FXMLControllerScore">
     <stylesheets>
         <URL value="@fxmlscore.css" />
     </stylesheets>
@@ -18,5 +18,6 @@
             <TextField fx:id="scoreField" prefHeight="8.0" prefWidth="149.0" />
          </children>
       </HBox>
+      <Button fx:id="displayScore" layoutX="257.0" layoutY="145.0" mnemonicParsing="false" text="Display Score" />
    </children>
 </AnchorPane>
