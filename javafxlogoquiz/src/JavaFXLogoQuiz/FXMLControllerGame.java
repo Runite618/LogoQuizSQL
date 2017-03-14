@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -24,10 +23,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import static sun.swing.SwingUtilities2.submit;
 
 public class FXMLControllerGame implements Initializable {
 
@@ -156,7 +153,36 @@ public class FXMLControllerGame implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resource) {
-        Logo arrayLogos[] = new Logo[30];
+        Logo arrayLogos[] = setLogoArray();
+
+        Logo[] arrayChosenLogos = randLogos(arrayLogos);
+
+        setAllImageViews(arrayChosenLogos);
+
+        submit.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                submitPress(arrayChosenLogos);
+            }
+        });
+    }
+
+    public static class Logo {
+
+        public String Answer;
+        public String Url;
+        public int Point;
+
+        public Logo(String answer, String url, int point) {
+            Answer = answer;
+            Url = url;
+            Point = point;
+        }
+    }
+
+    public Logo[] setLogoArray() {
+        Logo[] arrayLogos = new Logo[30];
 
         arrayLogos[0] = new Logo("ATP", "src\\images\\ATP_400x400.jpeg", 1);
         arrayLogos[1] = new Logo("Aston Villa", "src\\images\\Aston_Villa.svg.png", 1);
@@ -189,7 +215,12 @@ public class FXMLControllerGame implements Initializable {
         arrayLogos[28] = new Logo("NFL", "src\\images\\shield.jpg", 1);
         arrayLogos[29] = new Logo("Internet Explorer", "src\\images\\IE9.png", 1);
 
+        return arrayLogos;
+    }
+
+    public Logo[] randLogos(Logo[] arrayLogos) {
         List<Logo> chosenLogos = new ArrayList<Logo>();
+        // Randomises the logos and makes sure no random logo is selected twice.
         for (int count = 0; count < 10; count++) {
             Logo logo;
             do {
@@ -197,9 +228,15 @@ public class FXMLControllerGame implements Initializable {
             } while (chosenLogos.contains(logo));
             chosenLogos.add(logo);
         }
+        return chosenLogos.toArray(new Logo[chosenLogos.size()]);
+    }
 
-        Logo[] arrayChosenLogos = chosenLogos.toArray(new Logo[chosenLogos.size()]);
-
+    public static Logo getRandom(Logo[] array) {
+        int rnd = new Random().nextInt(array.length);
+        return array[rnd];
+    }
+    
+    public void setAllImageViews(Logo[] arrayChosenLogos) {
         SetImage(arrayChosenLogos[0], imgView);
         SetImage(arrayChosenLogos[1], imgView2);
         SetImage(arrayChosenLogos[2], imgView3);
@@ -210,53 +247,6 @@ public class FXMLControllerGame implements Initializable {
         SetImage(arrayChosenLogos[7], imgView8);
         SetImage(arrayChosenLogos[8], imgView9);
         SetImage(arrayChosenLogos[9], imgView10);
-
-        submit.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                int runningTotal = 0;
-
-                for (int count = 1; count <= 10; count++) {
-                    runningTotal = runningTotal + RunningTotal(arrayChosenLogos[count - 1], count);
-                }
-                int total = runningTotal;
-                System.out.print(total);
-
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXMLScore.fxml"));
-                fxmlLoader.setControllerFactory(new Callback<Class<?>, Object>() {
-                    @Override
-                    public Object call(Class<?> controllerClass) {
-                        if (controllerClass == FXMLControllerScore.class) {
-                            FXMLControllerScore controller = new FXMLControllerScore();
-                            controller.setIndex(total);
-                            return controller;
-                        } else {
-                            try {
-                                return controllerClass.newInstance();
-                            } catch (Exception exc) {
-                                throw new RuntimeException(exc); // just bail
-                            }
-                        }
-                    }
-                });
-                Parent root = null;
-                try {
-                    root = fxmlLoader.load();
-                } catch (IOException ex) {
-                    Logger.getLogger(FXMLControllerGame.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                Stage stage;
-
-                stage = (Stage) submit.getScene().getWindow();
-
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
-            }
-        });
-
     }
 
     public void SetImage(Logo logo, ImageView imgView) {
@@ -270,24 +260,26 @@ public class FXMLControllerGame implements Initializable {
         imgView.setImage(img);
     }
 
-    public static class Logo {
+    public void submitPress(Logo[] arrayChosenLogos) {
+        int total = logoTotal(arrayChosenLogos);
 
-        public String Answer;
-        public String Url;
-        public int Point;
+        FXMLLoader fxmlLoader = controllerFactory(total);
 
-        public Logo(String answer, String url, int point) {
-            Answer = answer;
-            Url = url;
-            Point = point;
+        Parent root = loadFxml(fxmlLoader);
+
+        changeScene(root);
+    }
+
+    public int logoTotal(Logo[] arrayChosenLogos) {
+        int runningTotal = 0;
+
+        for (int count = 1; count <= 10; count++) {
+            runningTotal = runningTotal + RunningTotal(arrayChosenLogos[count - 1], count);
         }
+        int total = runningTotal;
+        return total;
     }
-
-    public static Logo getRandom(Logo[] array) {
-        int rnd = new Random().nextInt(array.length);
-        return array[rnd];
-    }
-
+    
     public int RunningTotal(Logo logo, int count) {
 
         String gottenText = "";
@@ -326,13 +318,51 @@ public class FXMLControllerGame implements Initializable {
             default:
                 gottenText = "";
         }
-        if (gottenText.equals(logo.Answer)) 
-        {
+        if (gottenText.equals(logo.Answer)) {
             return logo.Point;
-        } 
-        else 
-        {
+        } else {
             return 0;
         }
+    }
+
+    public FXMLLoader controllerFactory(int total) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXMLScore.fxml"));
+        fxmlLoader.setControllerFactory(new Callback<Class<?>, Object>() {
+            @Override
+            public Object call(Class<?> controllerClass) {
+                if (controllerClass == FXMLControllerScore.class) {
+                    FXMLControllerScore controller = new FXMLControllerScore();
+                    controller.setIndex(total);
+                    return controller;
+                } else {
+                    try {
+                        return controllerClass.newInstance();
+                    } catch (Exception exc) {
+                        throw new RuntimeException(exc); // just bail
+                    }
+                }
+            }
+        });
+        return fxmlLoader;
+    }
+
+    public Parent loadFxml(FXMLLoader fxmlLoader) {
+        Parent root = null;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLControllerGame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return root;
+    }
+    
+    public void changeScene(Parent root) {
+        Stage stage;
+
+        stage = (Stage) submit.getScene().getWindow();
+
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 }
