@@ -44,6 +44,9 @@ public class FXMLControllerScore implements Initializable {
 
     @FXML
     private Button displayScore;
+    
+    @FXML
+    private Button reset;
 
     @FXML
     private Label score;
@@ -83,6 +86,31 @@ public class FXMLControllerScore implements Initializable {
                 addTable();
             }
         });
+        
+        reset.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                Parent root = null;
+                try {
+                    root = FXMLLoader.load(getClass().getResource("FXMLStart.fxml"));
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLControllerScore.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                changeScene(root);
+            }
+        });
+    }
+    
+    public void changeScene(Parent root) {
+        Stage stage;
+
+        stage = (Stage) reset.getScene().getWindow();
+
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     public void formatTextField() {
@@ -94,7 +122,7 @@ public class FXMLControllerScore implements Initializable {
 
     public void addTable() {
         ObservableList<HiScore> data = FXCollections.observableArrayList(
-                new HiScore("<5", "Disappointing, try again (insert reset)"),
+                new HiScore("<5", "Disappointing, try again"),
                 new HiScore("5-10", "Ok"),
                 new HiScore("10+", "Great!")
         );

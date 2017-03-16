@@ -25,5 +25,6 @@
           <TableColumn fx:id="value" prefWidth="411.0" text="Value" />
         </columns>
       </TableView>
+      <Button fx:id="reset" layoutX="500.0" layoutY="27.0" mnemonicParsing="false" text="Reset" />
    </children>
 </AnchorPane>
