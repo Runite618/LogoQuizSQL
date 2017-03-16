@@ -132,6 +132,10 @@ public class FXMLControllerScore implements Initializable {
 
         tableView.setItems(data);
         
+        setRowFactory();
+    }
+
+    private void setRowFactory() {
         tableView.setRowFactory(tv -> new TableRow<HiScore>() {
             
             @Override
@@ -148,7 +152,7 @@ public class FXMLControllerScore implements Initializable {
                 }
                 setStyle(color);
             }
-    });
+        });
     }
 
     public class HiScore {
