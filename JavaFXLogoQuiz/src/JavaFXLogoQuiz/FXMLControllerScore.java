@@ -67,6 +67,9 @@ public class FXMLControllerScore implements Initializable {
     private TextField numGuessesField;
 
     @FXML
+    private TextField timeTakenField;
+    
+    @FXML
     private TableView<HiScore> tableView;
 
     @FXML
@@ -75,10 +78,17 @@ public class FXMLControllerScore implements Initializable {
     @FXML
     private TableColumn<HiScore, String> scoreRange;
 
-    public FXMLControllerGame.Total index;
+    public FXMLControllerGame.Total Total;
 
-    public void setIndex(FXMLControllerGame.Total index) {
-        this.index = index;
+    public void setTotal(FXMLControllerGame.Total total) {
+        this.Total = total;
+    }
+    
+    public FXMLControllerGame.TimeSeconds TimeSeconds;
+    
+    public void setTimeSeconds(FXMLControllerGame.TimeSeconds timeSeconds)
+    {
+        this.TimeSeconds = timeSeconds;
     }
 
     /**
@@ -88,7 +98,8 @@ public class FXMLControllerScore implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         
-        numGuessesField.setText(Integer.toString(index.NumGuesses));
+        numGuessesField.setText(Integer.toString(Total.NumGuesses));
+        timeTakenField.setText(Integer.toString(TimeSeconds.get()));
         
         displayScore.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -127,8 +138,8 @@ public class FXMLControllerScore implements Initializable {
 
     public void formatTextField() {
         DecimalFormat myFormatter = new DecimalFormat("##");
-        String output = myFormatter.format(index.Score);
-        System.out.print(index.Score);
+        String output = myFormatter.format(Total.Score);
+        System.out.print(Total.Score);
         scoreField.setText(output);
     }
 
@@ -155,11 +166,11 @@ public class FXMLControllerScore implements Initializable {
                 super.updateItem(item, empty);
 
                 String color = "";
-                if (index.Score < 8) {
+                if (Total.Score < 8) {
                     color = "-fx-background-color: red";
-                } else if (index.Score >= 8 && index.Score <= 15) {
+                } else if (Total.Score >= 8 && Total.Score <= 15) {
                     color = "-fx-background-color: orange";
-                } else if (index.Score >= 16) {
+                } else if (Total.Score >= 16) {
                     color = "-fx-background-color: green";
                 }
                 setStyle(color);

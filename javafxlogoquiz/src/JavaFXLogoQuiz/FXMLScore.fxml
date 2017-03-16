@@ -18,7 +18,7 @@
             <TextField fx:id="scoreField" prefHeight="8.0" prefWidth="149.0" />
          </children>
       </HBox>
-      <Button fx:id="displayScore" layoutX="257.0" layoutY="79.0" mnemonicParsing="false" text="Display Score" />
+      <Button fx:id="displayScore" layoutX="75.0" layoutY="117.0" mnemonicParsing="false" text="Display Score" />
       <TableView fx:id="tableView" layoutX="29.0" layoutY="164.0" prefHeight="200.0" prefWidth="551.0">
         <columns>
           <TableColumn fx:id="scoreRange" prefWidth="136.0" text="Score Range" />
@@ -34,5 +34,11 @@
       </HBox>
       <Label layoutX="472.0" layoutY="96.0" />
       <TextArea layoutX="417.0" layoutY="72.0" prefHeight="83.0" prefWidth="166.0" text="Score per logo:&#10;Easy = 1&#10;Medium = 2&#10;Hard = 3" />
+      <HBox fx:id="timeTakenBox" layoutX="76.0" layoutY="69.0" prefHeight="30.0" prefWidth="322.0">
+         <children>
+            <Label fx:id="timeTakenLabel" text="Time taken for logo quiz (s): " />
+            <TextField fx:id="timeTakenField" prefHeight="8.0" prefWidth="149.0" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

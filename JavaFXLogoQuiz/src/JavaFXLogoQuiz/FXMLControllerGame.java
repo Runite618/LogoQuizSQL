@@ -174,18 +174,18 @@ public class FXMLControllerGame implements Initializable {
 
         setAllImageViews(arrayChosenLogos);
         
-        gameTimer();
+        TimeSeconds timeSeconds = gameTimer();
         
         submit.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
-                submitPress(arrayChosenLogos);
+                submitPress(arrayChosenLogos, timeSeconds);
             }
         });
     }
     
-    public void gameTimer()
+    public TimeSeconds gameTimer()
     {
         TimeSeconds timeSeconds = new TimeSeconds(new SimpleIntegerProperty(STARTTIME));
         
@@ -200,6 +200,8 @@ public class FXMLControllerGame implements Initializable {
                 new KeyFrame(Duration.seconds(STARTTIME + 9999),
                 new KeyValue(timeSeconds.TimeSeconds, 9999)));
         timeline.play();
+        
+        return timeSeconds;
     }
     
     public class TimeSeconds
@@ -316,10 +318,10 @@ public class FXMLControllerGame implements Initializable {
     }
 
     // When you press submit, this method happens
-    public void submitPress(Logo[] arrayChosenLogos) {
+    public void submitPress(Logo[] arrayChosenLogos, TimeSeconds timeSeconds) {
         Total total = logoTotal(arrayChosenLogos);
 
-        FXMLLoader fxmlLoader = controllerFactory(total);
+        FXMLLoader fxmlLoader = controllerFactory(total, timeSeconds);
 
         Parent root = loadFxml(fxmlLoader);
 
@@ -399,14 +401,15 @@ public class FXMLControllerGame implements Initializable {
         }
     }
 
-    public FXMLLoader controllerFactory(Total total) {
+    public FXMLLoader controllerFactory(Total total, TimeSeconds timeSeconds) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXMLScore.fxml"));
         fxmlLoader.setControllerFactory(new Callback<Class<?>, Object>() {
             @Override
             public Object call(Class<?> controllerClass) {
                 if (controllerClass == FXMLControllerScore.class) {
                     FXMLControllerScore controller = new FXMLControllerScore();
-                    controller.setIndex(total);
+                    controller.setTotal(total);
+                    controller.setTimeSeconds(timeSeconds);
                     return controller;
                 } else {
                     try {
