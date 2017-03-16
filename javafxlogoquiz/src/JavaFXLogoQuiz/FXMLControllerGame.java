@@ -185,35 +185,35 @@ public class FXMLControllerGame implements Initializable {
         Logo[] arrayLogos = new Logo[30];
 
         // Stores relevant logo info in new Logo object instances
-        arrayLogos[0] = new Logo("ATP", "src\\images\\ATP_400x400.jpeg", 1);
-        arrayLogos[1] = new Logo("Aston Villa", "src\\images\\Aston_Villa.svg.png", 1);
+        arrayLogos[0] = new Logo("ATP", "src\\images\\ATP_400x400.jpeg", 2);
+        arrayLogos[1] = new Logo("Aston Villa", "src\\images\\Aston_Villa.svg.png", 2);
         arrayLogos[2] = new Logo("Boots", "src\\images\\Boots.svg.png", 1);
         arrayLogos[3] = new Logo("Google", "src\\images\\Google_2015_logo.svg.png", 1);
         arrayLogos[4] = new Logo("Minecraft", "src\\images\\Minecraft-logo-transparent-background-ut05tirq.png", 1);
-        arrayLogos[5] = new Logo("The Northern", "src\\images\\Northern_large.jpg", 1);
+        arrayLogos[5] = new Logo("The Northern", "src\\images\\Northern_large.jpg", 3);
         arrayLogos[6] = new Logo("Premier League", "src\\images\\Premier_League_Logo.svg.png", 1);
         arrayLogos[7] = new Logo("Tesco", "src\\images\\Tesco-logo.png", 1);
         arrayLogos[8] = new Logo("JavaFX", "src\\images\\javafx_logo_color_1.jpg", 1);
         arrayLogos[9] = new Logo("Alienware", "src\\images\\2437538b6e14481072d15cfc0bd76e6b_alienware-releases-4-new-alienware-logo-hd-clipart_500-500.jpg", 1);
         arrayLogos[10] = new Logo("Super Bowl", "src\\images\\5007__super_bowl-primary-2016.png", 1);
-        arrayLogos[11] = new Logo("Spurs", "src\\images\\519px-Tottenham_Hotspur.svg.png", 1);
+        arrayLogos[11] = new Logo("Spurs", "src\\images\\519px-Tottenham_Hotspur.svg.png", 2);
         arrayLogos[12] = new Logo("Bleach", "src\\images\\573f78ba4ec6dda5a2374bb5142ef614.jpg", 1);
-        arrayLogos[13] = new Logo("Aviva Premiership", "src\\images\\Aviva_Premiership_logo.svg.png", 1);
+        arrayLogos[13] = new Logo("Aviva Premiership", "src\\images\\Aviva_Premiership_logo.svg.png", 2);
         arrayLogos[14] = new Logo("Carlsberg", "src\\images\\Carlsberg-logo-4C1D97A3C4-seeklogo.com.gif", 1);
-        arrayLogos[15] = new Logo("Edgbaston Priory Club", "src\\images\\Edgbaston-Priory-Club_logo_350x350px-300x300.jpg", 1);
+        arrayLogos[15] = new Logo("Edgbaston Priory Club", "src\\images\\Edgbaston-Priory-Club_logo_350x350px-300x300.jpg", 3);
         arrayLogos[16] = new Logo("Evian", "src\\images\\EvianLogo2.svg.png", 1);
         arrayLogos[17] = new Logo("Google Chrome", "src\\images\\Google_Chrome_icon_(2011).svg.png", 1);
         arrayLogos[18] = new Logo("Mario Kart", "src\\images\\Mario_kart_first_logo.png", 1);
-        arrayLogos[19] = new Logo("Middlesbrough", "src\\images\\Middlesbrough_FC_crest.svg.png", 1);
+        arrayLogos[19] = new Logo("Middlesbrough", "src\\images\\Middlesbrough_FC_crest.svg.png", 2);
         arrayLogos[20] = new Logo("The Legend of Zelda", "src\\images\\The_Legend_of_Zelda_-_Ocarina_of_Time_(logo).png", 1);
-        arrayLogos[21] = new Logo("Thinktank", "src\\images\\Thinktank%20Logo.jpg", 1);
-        arrayLogos[22] = new Logo("West Bromwich Albion", "src\\images\\West_Bromwich_Albion.svg.png", 1);
+        arrayLogos[21] = new Logo("Thinktank", "src\\images\\Thinktank%20Logo.jpg", 3);
+        arrayLogos[22] = new Logo("West Bromwich Albion", "src\\images\\West_Bromwich_Albion.svg.png", 2);
         arrayLogos[23] = new Logo("Mozilla Firefox", "src\\images\\guidelines-logo.7ea045a4e288.png", 1);
-        arrayLogos[24] = new Logo("Mac", "src\\images\\mac-birmingham-logo.jpg", 1);
+        arrayLogos[24] = new Logo("Mac", "src\\images\\mac-birmingham-logo.jpg", 3);
         arrayLogos[25] = new Logo("Sainsburys", "src\\images\\sainsbury_logo.png", 1);
-        arrayLogos[26] = new Logo("Thinkcentre", "src\\images\\thinkcentre-logo.jpg", 1);
+        arrayLogos[26] = new Logo("Thinkcentre", "src\\images\\thinkcentre-logo.jpg", 2);
         arrayLogos[27] = new Logo("Windows", "src\\images\\windows-logo.png", 1);
-        arrayLogos[28] = new Logo("NFL", "src\\images\\shield.jpg", 1);
+        arrayLogos[28] = new Logo("NFL", "src\\images\\shield.jpg", 2);
         arrayLogos[29] = new Logo("Internet Explorer", "src\\images\\IE9.png", 1);
 
         return arrayLogos;
@@ -263,7 +263,7 @@ public class FXMLControllerGame implements Initializable {
 
     // When you press submit, this method happens
     public void submitPress(Logo[] arrayChosenLogos) {
-        int total = logoTotal(arrayChosenLogos);
+        Total total = logoTotal(arrayChosenLogos);
 
         FXMLLoader fxmlLoader = controllerFactory(total);
 
@@ -272,17 +272,31 @@ public class FXMLControllerGame implements Initializable {
         changeScene(root);
     }
 
-    public int logoTotal(Logo[] arrayChosenLogos) {
-        int runningTotal = 0;
+    public Total logoTotal(Logo[] arrayChosenLogos) {
+        int score = 0;
+        int numGuesses = 0;
 
         for (int count = 1; count <= 10; count++) {
-            runningTotal = runningTotal + RunningTotal(arrayChosenLogos[count - 1], count);
+            score = score + RunningTotal(arrayChosenLogos[count - 1], count, true);
+            numGuesses = numGuesses + RunningTotal(arrayChosenLogos[count - 1], count, false);
         }
-        int total = runningTotal;
+        Total total = new Total(numGuesses, score);
         return total;
     }
     
-    public int RunningTotal(Logo logo, int count) {
+    public class Total
+    {
+        public int NumGuesses;
+        public int Score;
+        
+        private Total(int numGuesses, int score)
+        {
+            NumGuesses = numGuesses;
+            Score = score;
+        }
+    }
+    
+    public int RunningTotal(Logo logo, int count, boolean isScore) {
 
         String gottenText = "";
 
@@ -321,14 +335,17 @@ public class FXMLControllerGame implements Initializable {
             default:
                 gottenText = "";
         }
-        if (gottenText.equals(logo.Answer)) {
+        if (gottenText.equals(logo.Answer) && (isScore == true)) {
             return logo.Point;
-        } else {
+        } else if(gottenText.equals(logo.Answer) && (isScore == false)) {
+            return 1;
+        }
+        else {
             return 0;
         }
     }
 
-    public FXMLLoader controllerFactory(int total) {
+    public FXMLLoader controllerFactory(Total total) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXMLScore.fxml"));
         fxmlLoader.setControllerFactory(new Callback<Class<?>, Object>() {
             @Override
@@ -365,7 +382,6 @@ public class FXMLControllerGame implements Initializable {
         stage = (Stage) submit.getScene().getWindow();
 
         Scene scene = new Scene(root);
-        scene.getStylesheets().add("fxmlscore.css");
         stage.setScene(scene);
         stage.show();
     }

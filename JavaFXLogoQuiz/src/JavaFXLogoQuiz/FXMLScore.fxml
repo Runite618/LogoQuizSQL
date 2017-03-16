@@ -25,6 +25,14 @@
           <TableColumn fx:id="value" prefWidth="411.0" text="Value" />
         </columns>
       </TableView>
-      <Button fx:id="reset" layoutX="500.0" layoutY="27.0" mnemonicParsing="false" text="Reset" />
+      <Button fx:id="reset" layoutX="500.0" layoutY="29.0" mnemonicParsing="false" text="Reset" />
+      <HBox fx:id="numGuessesBox" layoutX="75.0" layoutY="28.0" prefHeight="30.0" prefWidth="322.0">
+         <children>
+            <Label fx:id="numCorrectGuesses" text="Number of Correct Guesses: " />
+            <TextField fx:id="numGuessesField" prefHeight="8.0" prefWidth="149.0" />
+         </children>
+      </HBox>
+      <Label layoutX="472.0" layoutY="96.0" />
+      <TextArea layoutX="417.0" layoutY="72.0" prefHeight="83.0" prefWidth="166.0" text="Score:&#10;Easy = 1&#10;Medium = 2&#10;Hard = 3" />
    </children>
 </AnchorPane>

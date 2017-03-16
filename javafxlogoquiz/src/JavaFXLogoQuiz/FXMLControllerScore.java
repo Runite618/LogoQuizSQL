@@ -50,12 +50,21 @@ public class FXMLControllerScore implements Initializable {
 
     @FXML
     private Label score;
+    
+    @FXML
+    private Label numCorrectGuesses;
 
     @FXML
     private HBox scoreBox;
+    
+    @FXML
+    private HBox numGuessesBox;
 
     @FXML
     private TextField scoreField;
+    
+    @FXML
+    private TextField numGuessesField;
 
     @FXML
     private TableView<HiScore> tableView;
@@ -66,9 +75,9 @@ public class FXMLControllerScore implements Initializable {
     @FXML
     private TableColumn<HiScore, String> scoreRange;
 
-    public int index;
+    public FXMLControllerGame.Total index;
 
-    public void setIndex(int index) {
+    public void setIndex(FXMLControllerGame.Total index) {
         this.index = index;
     }
 
@@ -78,6 +87,8 @@ public class FXMLControllerScore implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        numGuessesField.setText(Integer.toString(index.NumGuesses));
+        
         displayScore.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -115,16 +126,16 @@ public class FXMLControllerScore implements Initializable {
 
     public void formatTextField() {
         DecimalFormat myFormatter = new DecimalFormat("##");
-        String output = myFormatter.format(index);
-        System.out.print(index);
+        String output = myFormatter.format(index.Score);
+        System.out.print(index.Score);
         scoreField.setText(output);
     }
 
     public void addTable() {
         ObservableList<HiScore> data = FXCollections.observableArrayList(
-                new HiScore("<5", "Disappointing, try again"),
-                new HiScore("5-10", "Ok"),
-                new HiScore("10+", "Great!")
+                new HiScore("<8", "Disappointing, try again"),
+                new HiScore("8-15", "Ok"),
+                new HiScore("16+", "Great!")
         );
 
         value.setCellValueFactory(new PropertyValueFactory<HiScore, String>("value"));
@@ -143,11 +154,11 @@ public class FXMLControllerScore implements Initializable {
                 super.updateItem(item, empty);
 
                 String color = "";
-                if (index < 5) {
+                if (index.Score < 8) {
                     color = "-fx-background-color: red";
-                } else if (index >= 5 && index <= 10) {
+                } else if (index.Score >= 8 && index.Score <= 15) {
                     color = "-fx-background-color: orange";
-                } else if (index > 10) {
+                } else if (index.Score >= 16) {
                     color = "-fx-background-color: green";
                 }
                 setStyle(color);
