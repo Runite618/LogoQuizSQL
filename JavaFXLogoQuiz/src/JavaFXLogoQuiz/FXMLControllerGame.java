@@ -10,7 +10,13 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,6 +31,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.util.Duration;
+import static javafx.util.Duration.INDEFINITE;
 
 public class FXMLControllerGame implements Initializable {
 
@@ -84,6 +92,9 @@ public class FXMLControllerGame implements Initializable {
 
     @FXML
     private Label logo5;
+    
+    @FXML
+    private Label timerLabel;
 
     @FXML
     private TextField logoField10;
@@ -150,7 +161,11 @@ public class FXMLControllerGame implements Initializable {
 
     @FXML
     private ImageView imgView5;
-
+    
+    private static final int STARTTIME = 0;
+    
+    private Timeline timeline;
+    
     @Override
     public void initialize(URL url, ResourceBundle resource) {
         Logo arrayLogos[] = setLogoArray();
@@ -158,7 +173,9 @@ public class FXMLControllerGame implements Initializable {
         Logo[] arrayChosenLogos = randLogos(arrayLogos);
 
         setAllImageViews(arrayChosenLogos);
-
+        
+        gameTimer();
+        
         submit.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -167,7 +184,44 @@ public class FXMLControllerGame implements Initializable {
             }
         });
     }
-
+    
+    public void gameTimer()
+    {
+        TimeSeconds timeSeconds = new TimeSeconds(new SimpleIntegerProperty(STARTTIME));
+        
+        timerLabel.textProperty().bind(timeSeconds.TimeSeconds.asString());
+        
+        if (timeline != null) {
+            timeline.stop();
+        }
+        timeSeconds.set(STARTTIME);
+        Timeline timeline = new Timeline();
+        timeline.getKeyFrames().add(
+                new KeyFrame(Duration.seconds(STARTTIME + 9999),
+                new KeyValue(timeSeconds.TimeSeconds, 9999)));
+        timeline.play();
+    }
+    
+    public class TimeSeconds
+    {
+        private IntegerProperty TimeSeconds;
+        
+        public TimeSeconds(IntegerProperty timeSeconds)
+        {
+            this.TimeSeconds = timeSeconds;
+        }
+        
+        public void set(int timeSeconds) 
+        {
+            TimeSeconds.set(timeSeconds);
+        }
+        
+        public int get()
+        {
+            return TimeSeconds.get();
+        }
+    }
+    
     public static class Logo {
 
         public String Answer;

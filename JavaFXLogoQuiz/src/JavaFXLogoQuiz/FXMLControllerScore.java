@@ -87,6 +87,7 @@ public class FXMLControllerScore implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        
         numGuessesField.setText(Integer.toString(index.NumGuesses));
         
         displayScore.setOnAction(new EventHandler<ActionEvent>() {

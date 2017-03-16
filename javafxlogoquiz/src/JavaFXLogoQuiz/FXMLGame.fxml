@@ -85,5 +85,15 @@
       <ImageView fx:id="imgView9" fitHeight="91.0" fitWidth="121.0" layoutX="823.0" layoutY="243.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="imgView10" fitHeight="91.0" fitWidth="121.0" layoutX="1061.0" layoutY="243.0" pickOnBounds="true" preserveRatio="true" />
       <Button fx:id="submit" layoutX="1073.0" layoutY="415.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="113.0" text="Submit" />
+      <Label layoutX="516.0" layoutY="398.0" text="Timer: ">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="timerLabel" layoutX="589.0" layoutY="398.0" text="0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

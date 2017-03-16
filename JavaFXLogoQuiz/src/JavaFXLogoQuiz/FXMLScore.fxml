@@ -33,6 +33,6 @@
          </children>
       </HBox>
       <Label layoutX="472.0" layoutY="96.0" />
-      <TextArea layoutX="417.0" layoutY="72.0" prefHeight="83.0" prefWidth="166.0" text="Score:&#10;Easy = 1&#10;Medium = 2&#10;Hard = 3" />
+      <TextArea layoutX="417.0" layoutY="72.0" prefHeight="83.0" prefWidth="166.0" text="Score per logo:&#10;Easy = 1&#10;Medium = 2&#10;Hard = 3" />
    </children>
 </AnchorPane>
