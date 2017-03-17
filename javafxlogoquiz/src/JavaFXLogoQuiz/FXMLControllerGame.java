@@ -1,5 +1,6 @@
 package JavaFXLogoQuiz;
 
+import JavaFXLogoQuiz.FXMLController.UserName;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -166,8 +167,19 @@ public class FXMLControllerGame implements Initializable {
     
     private Timeline timeline;
     
+    public FXMLController.UserName UserName;
+    
+    public void setUser(FXMLController.UserName userName) 
+    {
+        this.UserName = userName;
+    }
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle resource) {
+        
+        System.out.print(UserName.User);
+        
         Logo arrayLogos[] = setLogoArray();
 
         Logo[] arrayChosenLogos = randLogos(arrayLogos);
@@ -175,6 +187,8 @@ public class FXMLControllerGame implements Initializable {
         setAllImageViews(arrayChosenLogos);
         
         TimeSeconds timeSeconds = gameTimer();
+        
+        
         
         submit.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -410,6 +424,7 @@ public class FXMLControllerGame implements Initializable {
                     FXMLControllerScore controller = new FXMLControllerScore();
                     controller.setTotal(total);
                     controller.setTimeSeconds(timeSeconds);
+                    controller.setUser(UserName);
                     return controller;
                 } else {
                     try {

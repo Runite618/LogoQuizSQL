@@ -5,10 +5,12 @@
  */
 package JavaFXLogoQuiz;
 
+import JavaFXLogoQuiz.FXMLController.UserName;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,6 +44,18 @@ import javafx.util.Callback;
  */
 public class FXMLControllerScore implements Initializable {
 
+    @FXML
+    private TableView<?> userScoreTv;
+    
+    @FXML
+    private TableColumn<?, ?> cUser;
+    
+    @FXML
+    private TableColumn<?, ?> cScore;
+    
+    @FXML
+    private TableColumn<?, ?> cCorrectGuesses;
+    
     @FXML
     private Button displayScore;
     
@@ -80,6 +94,13 @@ public class FXMLControllerScore implements Initializable {
 
     public FXMLControllerGame.Total Total;
 
+    public FXMLController.UserName UserName;
+    
+    public void setUser(FXMLController.UserName userName) 
+    {
+        this.UserName = userName;
+    }
+    
     public void setTotal(FXMLControllerGame.Total total) {
         this.Total = total;
     }
@@ -97,16 +118,19 @@ public class FXMLControllerScore implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        
         numGuessesField.setText(Integer.toString(Total.NumGuesses));
         timeTakenField.setText(Integer.toString(TimeSeconds.get()));
+        boolean buttonPress = false;
+        
+        setUserScoreData(userScoreTv, buttonPress);
         
         displayScore.setOnAction(new EventHandler<ActionEvent>() {
-
+            boolean buttonPress = true;
             @Override
             public void handle(ActionEvent event) {
                 formatTextField();
-                addTable();
+                setHiScoreData(tableView);
+                setUserScoreData(userScoreTv, buttonPress);
             }
         });
         
@@ -139,25 +163,60 @@ public class FXMLControllerScore implements Initializable {
     public void formatTextField() {
         DecimalFormat myFormatter = new DecimalFormat("##");
         String output = myFormatter.format(Total.Score);
-        System.out.print(Total.Score);
         scoreField.setText(output);
     }
 
-    public void addTable() {
+    public void setHiScoreData(TableView tableView) {
         ObservableList<HiScore> data = FXCollections.observableArrayList(
                 new HiScore("<8", "Disappointing, try again"),
                 new HiScore("8-15", "Ok"),
                 new HiScore("16+", "Great!")
         );
-
+        addHiScoreTable(data, tableView);
+    }
+    
+    public void setUserScoreData(TableView tableView, boolean buttonPress) {
+        ObservableList<UserScore> data = FXCollections.observableArrayList(
+                new UserScore(Integer.toString(Total.Score), UserName.User.toString(), Integer.toString(Total.NumGuesses)));
+        addUserScoreTable(data, tableView, buttonPress);
+    }
+    
+    public void setCellValueFactoryHiScoreTable()
+    {
         value.setCellValueFactory(new PropertyValueFactory<HiScore, String>("value"));
         scoreRange.setCellValueFactory(new PropertyValueFactory<HiScore, String>("scoreRange"));
-
+    }
+    
+    public void setCellValueFactoryUserScoreTable(boolean buttonPress)
+    {
+        if(buttonPress == false)
+        {
+            cCorrectGuesses.setCellValueFactory(new PropertyValueFactory<>("numGuesses"));
+            cUser.setCellValueFactory(new PropertyValueFactory<>("user"));
+        }
+        else
+        {
+            cScore.setText("Score");
+            cScore.setCellValueFactory(new PropertyValueFactory<>("value"));
+        }
+    }
+    
+    public void addHiScoreTable(ObservableList<HiScore> data, TableView tableView)
+    {
+        setCellValueFactoryHiScoreTable();
+        
         tableView.setItems(data);
         
         setRowFactory();
     }
-
+    
+    public void addUserScoreTable(ObservableList<UserScore> data, TableView tableView, boolean buttonPress)
+    {
+        setCellValueFactoryUserScoreTable(buttonPress);
+        
+        tableView.setItems(data);
+    }
+    
     private void setRowFactory() {
         tableView.setRowFactory(tv -> new TableRow<HiScore>() {
             
@@ -177,7 +236,45 @@ public class FXMLControllerScore implements Initializable {
             }
         });
     }
+    
+    public class UserScore {
+        
+        public SimpleStringProperty Value;
+        public SimpleStringProperty User;
+        public SimpleStringProperty NumGuesses;
 
+
+        public UserScore(String value, String user, String numGuesses) {
+            this.Value = new SimpleStringProperty(value);
+            this.User = new SimpleStringProperty(user);
+            this.NumGuesses = new SimpleStringProperty(numGuesses);
+        }
+
+        public String getValue() {
+            return Value.get();
+        }
+        
+        public String getUser() {
+            return User.get();
+        }
+
+        public String getNumGuesses() {
+            return NumGuesses.get();
+        }
+
+        public void setValue(String value) {
+            Value.set(value);
+        }
+        
+        public void setUser(String user) {
+            User.set(user);
+        }
+
+        public void setNumGuesses(String numGuesses) {
+            NumGuesses.set(numGuesses);
+        }
+    }
+    
     public class HiScore {
 
         public SimpleStringProperty ScoreRange;
