@@ -40,10 +40,11 @@
             <TextField fx:id="timeTakenField" prefHeight="8.0" prefWidth="149.0" />
          </children>
       </HBox>
-      <TableView fx:id="userScoreTv" layoutX="119.0" layoutY="402.0" prefHeight="200.0" prefWidth="364.0">
+      <TableView fx:id="userScoreTv" layoutX="63.0" layoutY="402.0" prefHeight="200.0" prefWidth="456.0">
         <columns>
           <TableColumn fx:id="cUser" prefWidth="169.0" text="User" />
           <TableColumn fx:id="cCorrectGuesses" prefWidth="97.0" text="Correct Guesses" />
+            <TableColumn fx:id="cTime" prefWidth="97.0" text="Time" />
             <TableColumn fx:id="cScore" prefWidth="97.0" />
         </columns>
       </TableView>

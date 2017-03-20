@@ -57,6 +57,9 @@ public class FXMLControllerScore implements Initializable {
     private TableColumn<?, ?> cCorrectGuesses;
     
     @FXML
+    private TableColumn<?, ?> cTime;
+    
+    @FXML
     private Button displayScore;
     
     @FXML
@@ -177,7 +180,7 @@ public class FXMLControllerScore implements Initializable {
     
     public void setUserScoreData(TableView tableView, boolean buttonPress) {
         ObservableList<UserScore> data = FXCollections.observableArrayList(
-                new UserScore(Integer.toString(Total.Score), UserName.User.toString(), Integer.toString(Total.NumGuesses)));
+                new UserScore(Integer.toString(Total.Score), UserName.User.toString(), Integer.toString(Total.NumGuesses), Integer.toString(TimeSeconds.get())));
         addUserScoreTable(data, tableView, buttonPress);
     }
     
@@ -193,6 +196,7 @@ public class FXMLControllerScore implements Initializable {
         {
             cCorrectGuesses.setCellValueFactory(new PropertyValueFactory<>("numGuesses"));
             cUser.setCellValueFactory(new PropertyValueFactory<>("user"));
+            cTime.setCellValueFactory(new PropertyValueFactory<>("timeSeconds"));
         }
         else
         {
@@ -242,12 +246,14 @@ public class FXMLControllerScore implements Initializable {
         public SimpleStringProperty Value;
         public SimpleStringProperty User;
         public SimpleStringProperty NumGuesses;
+        public SimpleStringProperty TimeSeconds;
 
 
-        public UserScore(String value, String user, String numGuesses) {
+        public UserScore(String value, String user, String numGuesses, String timeSeconds) {
             this.Value = new SimpleStringProperty(value);
             this.User = new SimpleStringProperty(user);
             this.NumGuesses = new SimpleStringProperty(numGuesses);
+            this.TimeSeconds = new SimpleStringProperty(timeSeconds);
         }
 
         public String getValue() {
@@ -261,6 +267,9 @@ public class FXMLControllerScore implements Initializable {
         public String getNumGuesses() {
             return NumGuesses.get();
         }
+        public String getTimeSeconds() {
+            return TimeSeconds.get();
+        }
 
         public void setValue(String value) {
             Value.set(value);
@@ -272,6 +281,10 @@ public class FXMLControllerScore implements Initializable {
 
         public void setNumGuesses(String numGuesses) {
             NumGuesses.set(numGuesses);
+        }
+        
+        public void setTimeSeconds(String time) {
+            TimeSeconds.set(time);
         }
     }
     

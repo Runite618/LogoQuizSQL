@@ -22,6 +22,14 @@ import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.derby.jdbc.ClientDriver;
 
 /**
  *
@@ -32,26 +40,37 @@ public class JavaFXLogoQuiz extends Application
     @Override
     public void start(Stage startStage)
     {
-        AnchorPane startPane = null;
-        try 
-        {
-            startPane = (AnchorPane) FXMLLoader.load(JavaFXLogoQuiz.class.getResource("FXMLStart.fxml"));
+//            Driver driver = new org.apache.derby.jdbc.ClientDriver();
+//            DriverManager.registerDriver(driver);
+//            
+//            Properties properties = new Properties();
+//            properties.setProperty("user", "root");
+//            properties.setProperty("password", "");
+//            properties.setProperty("useSSL", "true");
+//            
+//            Connection con = DriverManager.getConnection("jdbc:derby://localhost:3306", properties);
+//            DriverManager.deregisterDriver(driver);
+            
+            AnchorPane startPane = null;
+            try
+            {
+                startPane = (AnchorPane) FXMLLoader.load(JavaFXLogoQuiz.class.getResource("FXMLStart.fxml"));
+            }
+            catch(IOException e)
+            {
+                e.printStackTrace();
+            }
+            
+            Scene scene = new Scene(startPane);
+            
+            startStage.setTitle("Logo quiz!");
+            startStage.setScene(scene);
+            startStage.show();
         }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }     
-        
-        Scene scene = new Scene(startPane);
-        
-        startStage.setTitle("Logo quiz!");
-        startStage.setScene(scene);
-        startStage.show();
-    }
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) 
+    public static void main(String[] args)
     {
         launch(args);
     }  
