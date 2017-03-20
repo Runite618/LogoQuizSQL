@@ -188,8 +188,6 @@ public class FXMLControllerGame implements Initializable {
         
         TimeSeconds timeSeconds = gameTimer();
         
-        
-        
         submit.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -201,7 +199,7 @@ public class FXMLControllerGame implements Initializable {
     
     public TimeSeconds gameTimer()
     {
-        TimeSeconds timeSeconds = new TimeSeconds(new SimpleIntegerProperty(STARTTIME));
+        TimeSeconds timeSeconds = new TimeSeconds(STARTTIME);
         
         timerLabel.textProperty().bind(timeSeconds.TimeSeconds.asString());
         
@@ -220,11 +218,11 @@ public class FXMLControllerGame implements Initializable {
     
     public class TimeSeconds
     {
-        private IntegerProperty TimeSeconds;
+        public SimpleIntegerProperty TimeSeconds;
         
-        public TimeSeconds(IntegerProperty timeSeconds)
+        public TimeSeconds(int timeSeconds)
         {
-            this.TimeSeconds = timeSeconds;
+            this.TimeSeconds = new SimpleIntegerProperty(timeSeconds);
         }
         
         public void set(int timeSeconds) 
@@ -405,9 +403,9 @@ public class FXMLControllerGame implements Initializable {
             default:
                 gottenText = "";
         }
-        if (gottenText.equals(logo.Answer) && (isScore == true)) {
+        if (gottenText.equalsIgnoreCase(logo.Answer) && (isScore == true)) {
             return logo.Point;
-        } else if(gottenText.equals(logo.Answer) && (isScore == false)) {
+        } else if(gottenText.equalsIgnoreCase(logo.Answer) && (isScore == false)) {
             return 1;
         }
         else {

@@ -114,7 +114,9 @@ public class FXMLControllerScore implements Initializable {
     {
         this.TimeSeconds = timeSeconds;
     }
-
+    
+    public boolean buttonPress = false;
+    
     /**
      * Initializes the controller class.
      */
@@ -123,17 +125,19 @@ public class FXMLControllerScore implements Initializable {
         // TODO
         numGuessesField.setText(Integer.toString(Total.NumGuesses));
         timeTakenField.setText(Integer.toString(TimeSeconds.get()));
-        boolean buttonPress = false;
         
-        setUserScoreData(userScoreTv, buttonPress);
+        setUserScoreData(userScoreTv);
         
         displayScore.setOnAction(new EventHandler<ActionEvent>() {
-            boolean buttonPress = true;
             @Override
             public void handle(ActionEvent event) {
-                formatTextField();
-                setHiScoreData(tableView);
-                setUserScoreData(userScoreTv, buttonPress);
+                if (buttonPress == false)
+                {
+                    buttonPress = true;
+                    formatTextField();
+                    setHiScoreData(tableView);
+                    setUserScoreData(userScoreTv);
+                }
             }
         });
         
@@ -178,9 +182,9 @@ public class FXMLControllerScore implements Initializable {
         addHiScoreTable(data, tableView);
     }
     
-    public void setUserScoreData(TableView tableView, boolean buttonPress) {
+    public void setUserScoreData(TableView tableView) {
         ObservableList<UserScore> data = FXCollections.observableArrayList(
-                new UserScore(Integer.toString(Total.Score), UserName.User.toString(), Integer.toString(Total.NumGuesses), Integer.toString(TimeSeconds.get())));
+                new UserScore(Integer.toString(Total.Score), UserName.User, Integer.toString(Total.NumGuesses), timeTakenField.getText()));
         addUserScoreTable(data, tableView, buttonPress);
     }
     
@@ -190,7 +194,7 @@ public class FXMLControllerScore implements Initializable {
         scoreRange.setCellValueFactory(new PropertyValueFactory<HiScore, String>("scoreRange"));
     }
     
-    public void setCellValueFactoryUserScoreTable(boolean buttonPress)
+    public void setCellValueFactoryUserScoreTable()
     {
         if(buttonPress == false)
         {
@@ -216,7 +220,7 @@ public class FXMLControllerScore implements Initializable {
     
     public void addUserScoreTable(ObservableList<UserScore> data, TableView tableView, boolean buttonPress)
     {
-        setCellValueFactoryUserScoreTable(buttonPress);
+        setCellValueFactoryUserScoreTable();
         
         tableView.setItems(data);
     }
