@@ -149,18 +149,34 @@ public class FXMLControllerScore implements Initializable {
             numGuessesField.setText(Integer.toString(Total.NumGuesses));
             timeTakenField.setText(Integer.toString(TimeSeconds.get()));
             
-            setUserScoreData(userScoreTv);
+            ObservableList<UserScore> data = FXCollections.observableArrayList();
+            Driver driver = new com.mysql.jdbc.Driver();
+            DriverManager.registerDriver(driver);
+
+            Properties properties = new Properties();
+            properties.setProperty("user", "root");
+            properties.setProperty("password", "");
             
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/logo_quiz", properties);
+            DatabaseMetaData dbm = con.getMetaData();
+            ResultSet tables = dbm.getTables(null, null, "logo_quiz", null);
+            setUserScoreData(userScoreTv, data, con, tables);
+            con.close();
+
             displayScore.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
                     if (buttonPress == false)
                     {
                         try {
+                            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/logo_quiz", properties);
+                            DatabaseMetaData dbm = con.getMetaData();
+                            ResultSet tables = dbm.getTables(null, null, "logo_quiz", null);
                             buttonPress = true;
                             formatTextField();
                             setHiScoreData(tableView);
-                            setUserScoreData(userScoreTv);
+                            setUserScoreData(userScoreTv, data, con, tables);
+                            con.close();
                         } catch (SQLException ex) {
                             Logger.getLogger(FXMLControllerScore.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -175,7 +191,10 @@ public class FXMLControllerScore implements Initializable {
                     Parent root = null;
                     try {
                         root = FXMLLoader.load(getClass().getResource("FXMLStart.fxml"));
+                        DriverManager.deregisterDriver(driver);
                     } catch (IOException ex) {
+                        Logger.getLogger(FXMLControllerScore.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (SQLException ex) {
                         Logger.getLogger(FXMLControllerScore.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     
@@ -220,22 +239,7 @@ public class FXMLControllerScore implements Initializable {
         addHiScoreTable(data, tableView);
     }
     
-    public void setUserScoreData(TableView tableView) throws SQLException {
-        ObservableList<UserScore> data = FXCollections.observableArrayList();
-        Driver driver = new com.mysql.jdbc.Driver();
-        DriverManager.registerDriver(driver);
-
-        Properties properties = new Properties();
-        properties.setProperty("user", "root");
-        properties.setProperty("password", "");
-
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/logo_quiz", properties);
-        DriverManager.deregisterDriver(driver);
-
-        DatabaseMetaData dbm = con.getMetaData();
-        // check if "employee" table is there
-        ResultSet tables = dbm.getTables(null, null, "logo_quiz", null);
-        
+    public void setUserScoreData(TableView tableView, ObservableList<UserScore> data, Connection con, ResultSet tables) throws SQLException {
         if (tables.next()) 
         {
             // Table exists
@@ -268,8 +272,6 @@ public class FXMLControllerScore implements Initializable {
             data = GetData(rs, data);
         }
         addUserScoreTable(data, tableView, buttonPress);
-        
-        con.close ();
     }
     
     public void CreateTable(Connection con) throws SQLException
