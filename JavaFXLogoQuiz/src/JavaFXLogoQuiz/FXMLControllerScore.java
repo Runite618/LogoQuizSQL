@@ -77,6 +77,15 @@ public class FXMLControllerScore implements Initializable {
     private Button reset;
 
     @FXML
+    private Button guessButton;
+    
+    @FXML
+    private Button timeButton;
+    
+    @FXML
+    private Button scoreButton;
+    
+    @FXML
     private Label score;
     
     @FXML
@@ -171,6 +180,14 @@ public class FXMLControllerScore implements Initializable {
                     }
                     
                     changeScene(root);
+                }
+            });
+            
+            guessButton.setOnAction(new EventHandler<ActionEvent>() {
+                
+                @Override
+                public void handle(ActionEvent event) {
+                    String query = "SELECT user, num_correct_guesses, time, score FROM logo_quiz ORDER BY score";
                 }
             });
         } catch (SQLException ex) {

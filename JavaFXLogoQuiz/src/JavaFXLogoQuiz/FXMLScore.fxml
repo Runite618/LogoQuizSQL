@@ -40,7 +40,7 @@
             <TextField fx:id="timeTakenField" prefHeight="8.0" prefWidth="149.0" />
          </children>
       </HBox>
-      <TableView fx:id="userScoreTv" layoutX="63.0" layoutY="402.0" prefHeight="200.0" prefWidth="456.0">
+      <TableView fx:id="userScoreTv" layoutX="28.0" layoutY="402.0" prefHeight="200.0" prefWidth="456.0">
         <columns>
           <TableColumn fx:id="cUser" prefWidth="169.0" text="User" />
           <TableColumn fx:id="cCorrectGuesses" prefWidth="97.0" text="Correct Guesses" />
@@ -48,5 +48,9 @@
             <TableColumn fx:id="cScore" prefWidth="97.0" />
         </columns>
       </TableView>
+      <Button fx:id="timeButton" layoutX="520.0" layoutY="490.0" mnemonicParsing="false" text="Time" />
+      <Button fx:id="guessButton" layoutX="517.0" layoutY="444.0" mnemonicParsing="false" text="Guess" />
+      <Button fx:id="scoreButton" layoutX="518.0" layoutY="538.0" mnemonicParsing="false" text="Score" />
+      <Label alignment="CENTER" layoutX="509.0" layoutY="409.0" prefHeight="17.0" prefWidth="59.0" text="Order by:" />
    </children>
 </AnchorPane>
