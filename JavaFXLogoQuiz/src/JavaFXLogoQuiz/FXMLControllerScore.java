@@ -205,7 +205,6 @@ public class FXMLControllerScore implements Initializable {
     
     public void setUserScoreData(TableView tableView) throws SQLException {
         ObservableList<UserScore> data = FXCollections.observableArrayList();
-        
         Driver driver = new com.mysql.jdbc.Driver();
         DriverManager.registerDriver(driver);
 
@@ -225,74 +224,79 @@ public class FXMLControllerScore implements Initializable {
             // Table exists
             if(buttonPress == true)
             {
-                String query = "SELECT user, num_correct_guesses, time, score FROM logo_quiz";
-                java.sql.PreparedStatement st = con.prepareStatement(query);
+                String querySel = "SELECT user, num_correct_guesses, time, score FROM logo_quiz";
+                java.sql.PreparedStatement st = con.prepareStatement(querySel);
 
-                ResultSet rs = st.executeQuery(query);
+                ResultSet rs = st.executeQuery(querySel);
 
-                while (rs.next()) {
-                    data.add(new UserScore(rs.getString(4), rs.getString(1), rs.getString(2), rs.getString(3)));
-                }
+                data = GetData(rs, data);
             }
             else
             {
-                String query = "insert into logo_quiz (user, num_correct_guesses, time, score)"
-                        + " values (?, ?, ?, ?)";
+                QueryInsert(con);
 
-                PreparedStatement preparedStmt = con.prepareStatement(query);
-                preparedStmt.setString(1, UserName.User);
-                preparedStmt.setString(2, Integer.toString(Total.NumGuesses));
-                preparedStmt.setString(3, timeTakenField.getText());
-                preparedStmt.setString(4, Integer.toString(Total.Score));
-
-                preparedStmt.execute();
-
-                query = "SELECT user, num_correct_guesses, time, score FROM logo_quiz";
-                java.sql.PreparedStatement st = con.prepareStatement(query);
-
-                ResultSet rs = st.executeQuery(query);
-
-                while (rs.next()) {
-                    data.add(new UserScore(rs.getString(4), rs.getString(1), rs.getString(2), rs.getString(3)));
-                }
+                ResultSet rs = QuerySelect(con);    
+                
+                data = GetData(rs, data);
             }
         } else {
             
             // Table does not exist
-            String sql = "CREATE TABLE logo_quiz " +
+            CreateTable(con);
+            
+            QueryInsert(con);
+            
+            ResultSet rs = QuerySelect(con);
+
+            data = GetData(rs, data);
+        }
+        addUserScoreTable(data, tableView, buttonPress);
+        
+        con.close ();
+    }
+    
+    public void CreateTable(Connection con) throws SQLException
+    {
+        String sql = "CREATE TABLE logo_quiz " +
                     "(id INTEGER not NULL AUTO_INCREMENT, " +
                     " user VARCHAR(255), " + 
                     " num_correct_guesses VARCHAR(255), " + 
                     " time VARCHAR(255), " +
                     " score VARCHAR(255), " + 
                     " PRIMARY KEY ( id ))";
-            Statement stmt = con.createStatement();
-            stmt.execute(sql);
-            
-            String query = "insert into logo_quiz (user, num_correct_guesses, time, score)"
-                    + " values (?, ?, ?, ?)";
-
-            PreparedStatement preparedStmt = con.prepareStatement(query);
-            preparedStmt.setString(1, UserName.User);
-            preparedStmt.setString(2, Integer.toString(Total.NumGuesses));
-            preparedStmt.setString(3, timeTakenField.getText());
-            preparedStmt.setString(4, Integer.toString(Total.Score));
-
-            preparedStmt.execute();
-            
-            query = "SELECT user, num_correct_guesses, time, score FROM logo_quiz";
-            java.sql.PreparedStatement st = con.prepareStatement(query);
-
-            ResultSet rs = st.executeQuery(query);
-
-            while (rs.next()) {
-                data.add(new UserScore(rs.getString(4), rs.getString(1), rs.getString(2), rs.getString(3)));
-                System.out.print(rs.getString(4));
-            }
+        Statement stmt = con.createStatement();
+        stmt.execute(sql);
+    }
+    
+    public ObservableList<UserScore> GetData(ResultSet rs, ObservableList<UserScore> data) throws SQLException
+    {
+        while (rs.next()) {
+            data.add(new UserScore(rs.getString(4), rs.getString(1), rs.getString(2), rs.getString(3)));
         }
-        addUserScoreTable(data, tableView, buttonPress);
-        
-        con.close ();
+        return data;
+    }
+    
+    public ResultSet QuerySelect(Connection con) throws SQLException
+    {
+        String querySel = "SELECT user, num_correct_guesses, time, score FROM logo_quiz";
+        java.sql.PreparedStatement st = con.prepareStatement(querySel);
+
+        ResultSet rs = null;
+        return rs = st.executeQuery(querySel);
+    }
+    
+    public void QueryInsert(Connection con) throws SQLException
+    {
+        String query = "insert into logo_quiz (user, num_correct_guesses, time, score)"
+                + " values (?, ?, ?, ?)";
+
+        PreparedStatement preparedStmt = con.prepareStatement(query);
+        preparedStmt.setString(1, UserName.User);
+        preparedStmt.setString(2, Integer.toString(Total.NumGuesses));
+        preparedStmt.setString(3, timeTakenField.getText());
+        preparedStmt.setString(4, Integer.toString(Total.Score));
+
+        preparedStmt.execute();
     }
     
     public void setCellValueFactoryHiScoreTable()
