@@ -18,6 +18,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -206,12 +208,18 @@ public class FXMLControllerScore implements Initializable {
                 
                 @Override
                 public void handle(ActionEvent event) {
-                    String query = "SELECT user, num_correct_guesses, time, score FROM logo_quiz ORDER BY score";
+                    ObservableList<UserScore> sortedByGuess = Sort(data);
+                    addUserScoreTable(sortedByGuess, userScoreTv, buttonPress);
                 }
             });
         } catch (SQLException ex) {
             Logger.getLogger(FXMLControllerScore.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public static ObservableList<UserScore> Sort(ObservableList<UserScore> data)
+    {
+        return Sort(data);
     }
     
     public void changeScene(Parent root) {
