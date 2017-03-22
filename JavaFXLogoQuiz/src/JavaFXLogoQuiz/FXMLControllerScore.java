@@ -8,13 +8,23 @@ package JavaFXLogoQuiz;
 import JavaFXLogoQuiz.FXMLController.UserName;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,6 +37,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -117,44 +128,54 @@ public class FXMLControllerScore implements Initializable {
     
     public boolean buttonPress = false;
     
+    public boolean alreadyInserted = false;
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        numGuessesField.setText(Integer.toString(Total.NumGuesses));
-        timeTakenField.setText(Integer.toString(TimeSeconds.get()));
-        
-        setUserScoreData(userScoreTv);
-        
-        displayScore.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (buttonPress == false)
-                {
-                    buttonPress = true;
-                    formatTextField();
-                    setHiScoreData(tableView);
-                    setUserScoreData(userScoreTv);
+        try {
+            // TODO
+            numGuessesField.setText(Integer.toString(Total.NumGuesses));
+            timeTakenField.setText(Integer.toString(TimeSeconds.get()));
+            
+            setUserScoreData(userScoreTv);
+            
+            displayScore.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    if (buttonPress == false)
+                    {
+                        try {
+                            buttonPress = true;
+                            formatTextField();
+                            setHiScoreData(tableView);
+                            setUserScoreData(userScoreTv);
+                        } catch (SQLException ex) {
+                            Logger.getLogger(FXMLControllerScore.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                 }
-            }
-        });
-        
-        reset.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                Parent root = null;
-                try {
-                    root = FXMLLoader.load(getClass().getResource("FXMLStart.fxml"));
-                } catch (IOException ex) {
-                    Logger.getLogger(FXMLControllerScore.class.getName()).log(Level.SEVERE, null, ex);
+            });
+            
+            reset.setOnAction(new EventHandler<ActionEvent>() {
+                
+                @Override
+                public void handle(ActionEvent event) {
+                    Parent root = null;
+                    try {
+                        root = FXMLLoader.load(getClass().getResource("FXMLStart.fxml"));
+                    } catch (IOException ex) {
+                        Logger.getLogger(FXMLControllerScore.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                    changeScene(root);
                 }
-
-                changeScene(root);
-            }
-        });
+            });
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLControllerScore.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void changeScene(Parent root) {
@@ -182,10 +203,96 @@ public class FXMLControllerScore implements Initializable {
         addHiScoreTable(data, tableView);
     }
     
-    public void setUserScoreData(TableView tableView) {
-        ObservableList<UserScore> data = FXCollections.observableArrayList(
-                new UserScore(Integer.toString(Total.Score), UserName.User, Integer.toString(Total.NumGuesses), timeTakenField.getText()));
+    public void setUserScoreData(TableView tableView) throws SQLException {
+        ObservableList<UserScore> data = FXCollections.observableArrayList();
+        
+        Driver driver = new com.mysql.jdbc.Driver();
+        DriverManager.registerDriver(driver);
+
+        Properties properties = new Properties();
+        properties.setProperty("user", "root");
+        properties.setProperty("password", "");
+
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/logo_quiz", properties);
+        DriverManager.deregisterDriver(driver);
+
+        DatabaseMetaData dbm = con.getMetaData();
+        // check if "employee" table is there
+        ResultSet tables = dbm.getTables(null, null, "logo_quiz", null);
+        
+        if (tables.next()) 
+        {
+            // Table exists
+            if(buttonPress == true)
+            {
+                String query = "SELECT * FROM logo_quiz";
+                java.sql.PreparedStatement st = con.prepareStatement(query);
+
+                ResultSet rs = st.executeQuery(query);
+
+                while (rs.next()) {
+                    data.add(new UserScore(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+                }
+            }
+            else
+            {
+                String query = "insert into logo_quiz (user, num_correct_guesses, time, score)"
+                        + " values (?, ?, ?, ?)";
+
+                PreparedStatement preparedStmt = con.prepareStatement(query);
+                preparedStmt.setString(1, UserName.User);
+                preparedStmt.setString(2, Integer.toString(Total.NumGuesses));
+                preparedStmt.setString(3, timeTakenField.getText());
+                preparedStmt.setString(4, Integer.toString(Total.Score));
+
+                preparedStmt.execute();
+
+                query = "SELECT * FROM logo_quiz";
+                java.sql.PreparedStatement st = con.prepareStatement(query);
+
+                ResultSet rs = st.executeQuery(query);
+
+                while (rs.next()) {
+                    data.add(new UserScore(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+                }
+            }
+        } else {
+            
+            // Table does not exist
+            String sql = "CREATE TABLE logo_quiz " +
+                    "(id INTEGER not NULL AUTO_INCREMENT, " +
+                    " user VARCHAR(255), " + 
+                    " num_correct_guesses VARCHAR(255), " + 
+                    " time VARCHAR(255), " +
+                    " score VARCHAR(255), " + 
+                    " PRIMARY KEY ( id ))";
+            Statement stmt = con.createStatement();
+            stmt.execute(sql);
+            
+            String query = "insert into logo_quiz (user, num_correct_guesses, time, score)"
+                    + " values (?, ?, ?, ?)";
+
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+            preparedStmt.setString(1, UserName.User);
+            preparedStmt.setString(2, Integer.toString(Total.NumGuesses));
+            preparedStmt.setString(3, timeTakenField.getText());
+            preparedStmt.setString(4, Integer.toString(Total.Score));
+
+            preparedStmt.execute();
+            
+            query = "SELECT * FROM logo_quiz";
+            java.sql.PreparedStatement st = con.prepareStatement(query);
+
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                data.add(new UserScore(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+                System.out.print(rs.getString(4));
+            }
+        }
         addUserScoreTable(data, tableView, buttonPress);
+        
+        con.close ();
     }
     
     public void setCellValueFactoryHiScoreTable()

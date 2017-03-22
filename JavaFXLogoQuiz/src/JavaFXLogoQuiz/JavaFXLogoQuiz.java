@@ -5,6 +5,7 @@
  */
 package JavaFXLogoQuiz;
 
+import com.mysql.jdbc.PreparedStatement;
 import java.io.File;
 import java.io.IOException;
 import javafx.application.Application;
@@ -25,11 +26,11 @@ import javafx.scene.layout.AnchorPane;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.derby.jdbc.ClientDriver;
 
 /**
  *
@@ -40,32 +41,18 @@ public class JavaFXLogoQuiz extends Application
     @Override
     public void start(Stage startStage)
     {
-//            Driver driver = new org.apache.derby.jdbc.ClientDriver();
-//            DriverManager.registerDriver(driver);
-//            
-//            Properties properties = new Properties();
-//            properties.setProperty("user", "root");
-//            properties.setProperty("password", "");
-//            properties.setProperty("useSSL", "true");
-//            
-//            Connection con = DriverManager.getConnection("jdbc:derby://localhost:3306", properties);
-//            DriverManager.deregisterDriver(driver);
-            
-            AnchorPane startPane = null;
-            try
-            {
-                startPane = (AnchorPane) FXMLLoader.load(JavaFXLogoQuiz.class.getResource("FXMLStart.fxml"));
-            }
-            catch(IOException e)
-            {
-                e.printStackTrace();
-            }
-            
-            Scene scene = new Scene(startPane);
-            
-            startStage.setTitle("Logo quiz!");
-            startStage.setScene(scene);
-            startStage.show();
+        AnchorPane startPane = null;
+        try {
+            startPane = (AnchorPane) FXMLLoader.load(JavaFXLogoQuiz.class.getResource("FXMLStart.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Scene scene = new Scene(startPane);
+
+        startStage.setTitle("Logo quiz!");
+        startStage.setScene(scene);
+        startStage.show();
         }
     /**
      * @param args the command line arguments
