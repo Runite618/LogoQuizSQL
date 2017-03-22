@@ -260,9 +260,9 @@ public class FXMLControllerScore implements Initializable {
         String sql = "CREATE TABLE logo_quiz " +
                     "(id INTEGER not NULL AUTO_INCREMENT, " +
                     " user VARCHAR(255), " + 
-                    " num_correct_guesses VARCHAR(255), " + 
+                    " num_correct_guesses INT, " + 
                     " time VARCHAR(255), " +
-                    " score VARCHAR(255), " + 
+                    " score INT, " + 
                     " PRIMARY KEY ( id ))";
         Statement stmt = con.createStatement();
         stmt.execute(sql);
@@ -292,9 +292,9 @@ public class FXMLControllerScore implements Initializable {
 
         PreparedStatement preparedStmt = con.prepareStatement(query);
         preparedStmt.setString(1, UserName.User);
-        preparedStmt.setString(2, Integer.toString(Total.NumGuesses));
-        preparedStmt.setString(3, timeTakenField.getText());
-        preparedStmt.setString(4, Integer.toString(Total.Score));
+        preparedStmt.setInt(2, Total.NumGuesses);
+        preparedStmt.setInt(3, Integer.parseInt(timeTakenField.getText()));
+        preparedStmt.setInt(4, Total.Score);
 
         preparedStmt.execute();
     }
