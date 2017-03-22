@@ -225,13 +225,13 @@ public class FXMLControllerScore implements Initializable {
             // Table exists
             if(buttonPress == true)
             {
-                String query = "SELECT * FROM logo_quiz";
+                String query = "SELECT user, num_correct_guesses, time, score FROM logo_quiz";
                 java.sql.PreparedStatement st = con.prepareStatement(query);
 
                 ResultSet rs = st.executeQuery(query);
 
                 while (rs.next()) {
-                    data.add(new UserScore(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+                    data.add(new UserScore(rs.getString(4), rs.getString(1), rs.getString(2), rs.getString(3)));
                 }
             }
             else
@@ -247,13 +247,13 @@ public class FXMLControllerScore implements Initializable {
 
                 preparedStmt.execute();
 
-                query = "SELECT * FROM logo_quiz";
+                query = "SELECT user, num_correct_guesses, time, score FROM logo_quiz";
                 java.sql.PreparedStatement st = con.prepareStatement(query);
 
                 ResultSet rs = st.executeQuery(query);
 
                 while (rs.next()) {
-                    data.add(new UserScore(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+                    data.add(new UserScore(rs.getString(4), rs.getString(1), rs.getString(2), rs.getString(3)));
                 }
             }
         } else {
@@ -280,13 +280,13 @@ public class FXMLControllerScore implements Initializable {
 
             preparedStmt.execute();
             
-            query = "SELECT * FROM logo_quiz";
+            query = "SELECT user, num_correct_guesses, time, score FROM logo_quiz";
             java.sql.PreparedStatement st = con.prepareStatement(query);
 
             ResultSet rs = st.executeQuery(query);
 
             while (rs.next()) {
-                data.add(new UserScore(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+                data.add(new UserScore(rs.getString(4), rs.getString(1), rs.getString(2), rs.getString(3)));
                 System.out.print(rs.getString(4));
             }
         }
