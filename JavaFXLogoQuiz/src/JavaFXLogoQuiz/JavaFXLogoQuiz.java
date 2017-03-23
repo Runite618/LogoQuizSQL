@@ -29,7 +29,6 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.derby.jdbc.ClientDriver;
 
 /**
  *
@@ -40,17 +39,6 @@ public class JavaFXLogoQuiz extends Application
     @Override
     public void start(Stage startStage)
     {
-//            Driver driver = new org.apache.derby.jdbc.ClientDriver();
-//            DriverManager.registerDriver(driver);
-//            
-//            Properties properties = new Properties();
-//            properties.setProperty("user", "root");
-//            properties.setProperty("password", "");
-//            properties.setProperty("useSSL", "true");
-//            
-//            Connection con = DriverManager.getConnection("jdbc:derby://localhost:3306", properties);
-//            DriverManager.deregisterDriver(driver);
-            
             AnchorPane startPane = null;
             try
             {
