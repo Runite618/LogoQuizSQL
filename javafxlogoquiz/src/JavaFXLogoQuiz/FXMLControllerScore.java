@@ -6,7 +6,7 @@
 package JavaFXLogoQuiz;
 
 import JavaFXLogoQuiz.FXMLController.UserName;
-import JavaFXLogoQuiz.FXMLControllerScore.UserScore;
+import static com.sun.deploy.cache.Cache.reset;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -45,6 +45,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Collection;
 import java.util.stream.Collectors;
+import static sun.plugin.ClassLoaderInfo.reset;
 
 /**
  * FXML Controller class
@@ -54,7 +55,7 @@ import java.util.stream.Collectors;
 public class FXMLControllerScore implements Initializable {
 
    @FXML
-   private TableView<?> userScoreTv;
+   private TableView<UserScore> userScoreTv;
 
    @FXML
    private TableColumn<?, ?> cUser;
@@ -133,7 +134,7 @@ public class FXMLControllerScore implements Initializable {
       numGuessesField.setText(Integer.toString(Total.NumGuesses));
       timeTakenField.setText(Integer.toString(TimeSeconds.get()));
 
-      setUserScoreData(userScoreTv);
+      ObservableList<UserScore> setUserScoreData = setUserScoreData(userScoreTv);
 
       displayScore.setOnAction(new EventHandler<ActionEvent>() {
          @Override
@@ -156,32 +157,25 @@ public class FXMLControllerScore implements Initializable {
                      writeFile.writeToFile(userScore.getValue());
                   }
                   
-                  Collection<UserScore> list = Files.readAllLines(new File("UserScores.txt").toPath())
-                          .stream()
-                          .map(line -> {
-                             String[] details = line.split(",");
-                             UserScore us = new UserScore(Integer.toString(Total.Score), UserName.User, Integer.toString(Total.NumGuesses), timeTakenField.getText());
-                             us.setUser(details[0]);
-                             us.setNumGuesses(details[1]);
-                             us.setTimeSeconds(details[2]);
-                             us.setValue(details[3]);
-                             return us;
-                          })
-                          .collect(Collectors.toList());
-                         
-                  ObservableList<UserScore> details = FXCollections.observableArrayList(list);
                   
-                  TableView<UserScore> tableFromTxt = new TableView<>();
+                  List<String> list = Files.readAllLines(new File("UserScores.txt").toPath());
+
+                  ObservableList<UserScore> obs = FXCollections.observableArrayList();
+                  for (int i = 0; i < list.size(); i += 4) {
+                     obs.add(new UserScore(list.get(i+3), list.get(i), list.get(i+1), list.get(i+2)));
+                  }
+
+                  TableView<UserScore> tableFromTxt = new TableView<UserScore>();
                   TableColumn<UserScore, String> col1 = new TableColumn<>();
                   TableColumn<UserScore, String> col2 = new TableColumn<>();
                   TableColumn<UserScore, String> col3 = new TableColumn<>();
                   TableColumn<UserScore, String> col4 = new TableColumn<>();
-                  
+
                   tableFromTxt.getColumns().addAll(col1, col2, col3, col4);
-                  
-                  tableFromTxt.setItems(details);
-                  
-                  userScoreTv = tableFromTxt;
+
+                  tableFromTxt.setItems(obs);
+
+                  userScoreTv.setItems(tableFromTxt.getItems());
                } catch (IOException ex) {
                   Logger.getLogger(FXMLControllerScore.class.getName()).log(Level.SEVERE, null, ex);
                }
@@ -222,7 +216,7 @@ public class FXMLControllerScore implements Initializable {
       public void writeToFile(String textLine) throws IOException {
          FileWriter write = new FileWriter(File, AppendToFile);
          PrintWriter printLine = new PrintWriter(write);
-         printLine.printf("%s" + ",", textLine);
+         printLine.printf("%s" + "%n", textLine);
          printLine.close();
       }
    }
@@ -315,7 +309,7 @@ public class FXMLControllerScore implements Initializable {
       public SimpleStringProperty User;
       public SimpleStringProperty NumGuesses;
       public SimpleStringProperty TimeSeconds;
-      
+
       public UserScore(String value, String user, String numGuesses, String timeSeconds) {
          this.Value = new SimpleStringProperty(value);
          this.User = new SimpleStringProperty(user);
