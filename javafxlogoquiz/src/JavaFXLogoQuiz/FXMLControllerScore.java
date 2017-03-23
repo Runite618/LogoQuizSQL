@@ -6,6 +6,7 @@
 package JavaFXLogoQuiz;
 
 import JavaFXLogoQuiz.FXMLController.UserName;
+import JavaFXLogoQuiz.FXMLControllerScore.UserScore;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -41,6 +42,9 @@ import javafx.util.Callback;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * FXML Controller class
@@ -151,6 +155,33 @@ public class FXMLControllerScore implements Initializable {
                      writeFile.writeToFile(userScore.getTimeSeconds());
                      writeFile.writeToFile(userScore.getValue());
                   }
+                  
+                  Collection<UserScore> list = Files.readAllLines(new File("UserScores.txt").toPath())
+                          .stream()
+                          .map(line -> {
+                             String[] details = line.split(",");
+                             UserScore us = new UserScore(Integer.toString(Total.Score), UserName.User, Integer.toString(Total.NumGuesses), timeTakenField.getText());
+                             us.setUser(details[0]);
+                             us.setNumGuesses(details[1]);
+                             us.setTimeSeconds(details[2]);
+                             us.setValue(details[3]);
+                             return us;
+                          })
+                          .collect(Collectors.toList());
+                         
+                  ObservableList<UserScore> details = FXCollections.observableArrayList(list);
+                  
+                  TableView<UserScore> tableFromTxt = new TableView<>();
+                  TableColumn<UserScore, String> col1 = new TableColumn<>();
+                  TableColumn<UserScore, String> col2 = new TableColumn<>();
+                  TableColumn<UserScore, String> col3 = new TableColumn<>();
+                  TableColumn<UserScore, String> col4 = new TableColumn<>();
+                  
+                  tableFromTxt.getColumns().addAll(col1, col2, col3, col4);
+                  
+                  tableFromTxt.setItems(details);
+                  
+                  userScoreTv = tableFromTxt;
                } catch (IOException ex) {
                   Logger.getLogger(FXMLControllerScore.class.getName()).log(Level.SEVERE, null, ex);
                }
@@ -191,7 +222,7 @@ public class FXMLControllerScore implements Initializable {
       public void writeToFile(String textLine) throws IOException {
          FileWriter write = new FileWriter(File, AppendToFile);
          PrintWriter printLine = new PrintWriter(write);
-         printLine.printf("%s" + "%n", textLine);
+         printLine.printf("%s" + ",", textLine);
          printLine.close();
       }
    }
@@ -284,7 +315,7 @@ public class FXMLControllerScore implements Initializable {
       public SimpleStringProperty User;
       public SimpleStringProperty NumGuesses;
       public SimpleStringProperty TimeSeconds;
-
+      
       public UserScore(String value, String user, String numGuesses, String timeSeconds) {
          this.Value = new SimpleStringProperty(value);
          this.User = new SimpleStringProperty(user);
