@@ -130,75 +130,74 @@ public class FXMLControllerScore implements Initializable {
     */
    @Override
    public void initialize(URL url, ResourceBundle rb) {
-      // TODO
-      numGuessesField.setText(Integer.toString(Total.NumGuesses));
-      timeTakenField.setText(Integer.toString(TimeSeconds.get()));
-
-      ObservableList<UserScore> setUserScoreData = setUserScoreData(userScoreTv);
-
-      displayScore.setOnAction(new EventHandler<ActionEvent>() {
-         @Override
-         public void handle(ActionEvent event) {
-            if (buttonPress == false) {
-               try {
-                  buttonPress = true;
-                  formatTextField();
-                  setHiScoreData(tableView);
-                  ObservableList<UserScore> data = setUserScoreData(userScoreTv);
-
-                  File file = new File("UserScores.txt");
-                  //Create the file
-                  file.createNewFile();
-                  WriteFile writeFile = new WriteFile(file, true);
-                  for (UserScore userScore : data) {
-                     writeFile.writeToFile(userScore.getUser());
-                     writeFile.writeToFile(userScore.getNumGuesses());
-                     writeFile.writeToFile(userScore.getTimeSeconds());
-                     writeFile.writeToFile(userScore.getValue());
+      try {
+         // TODO
+         numGuessesField.setText(Integer.toString(Total.NumGuesses));
+         timeTakenField.setText(Integer.toString(TimeSeconds.get()));
+         
+         ObservableList<UserScore> data = FXCollections.observableArrayList(
+                 new UserScore(Integer.toString(Total.Score), UserName.User, Integer.toString(Total.NumGuesses), timeTakenField.getText()));
+         writeToTxtFile(data);
+         setUserScoreData(userScoreTv);
+         
+         displayScore.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+               if (buttonPress == false) {
+                  try {
+                     buttonPress = true;
+                     formatTextField();
+                     setHiScoreData(tableView);
+                     setUserScoreData(userScoreTv);
+                     readFromTxtFile();
+                  } catch (IOException ex) {
+                     Logger.getLogger(FXMLControllerScore.class.getName()).log(Level.SEVERE, null, ex);
                   }
-                  
-                  
-                  List<String> list = Files.readAllLines(new File("UserScores.txt").toPath());
-
-                  ObservableList<UserScore> obs = FXCollections.observableArrayList();
-                  for (int i = 0; i < list.size(); i += 4) {
-                     obs.add(new UserScore(list.get(i+3), list.get(i), list.get(i+1), list.get(i+2)));
-                  }
-
-                  TableView<UserScore> tableFromTxt = new TableView<UserScore>();
-                  TableColumn<UserScore, String> col1 = new TableColumn<>();
-                  TableColumn<UserScore, String> col2 = new TableColumn<>();
-                  TableColumn<UserScore, String> col3 = new TableColumn<>();
-                  TableColumn<UserScore, String> col4 = new TableColumn<>();
-
-                  tableFromTxt.getColumns().addAll(col1, col2, col3, col4);
-
-                  tableFromTxt.setItems(obs);
-
-                  userScoreTv.setItems(tableFromTxt.getItems());
-               } catch (IOException ex) {
-                  Logger.getLogger(FXMLControllerScore.class.getName()).log(Level.SEVERE, null, ex);
                }
             }
-         }
-      });
-
-      reset.setOnAction(new EventHandler<ActionEvent>() {
-
-         @Override
-         public void handle(ActionEvent event) {
+         });
+         
+         reset.setOnAction((ActionEvent event) -> {
             Parent root = null;
             try {
                root = FXMLLoader.load(getClass().getResource("FXMLStart.fxml"));
             } catch (IOException ex) {
                Logger.getLogger(FXMLControllerScore.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            
             changeScene(root);
-         }
-      });
+         });
+      } catch (IOException ex) {
+         Logger.getLogger(FXMLControllerScore.class.getName()).log(Level.SEVERE, null, ex);
+      }
    }
 
+   public void writeToTxtFile(ObservableList<UserScore> data) throws IOException
+   {
+      File file = new File("UserScores.txt");
+      //Create the file
+      file.createNewFile();
+      WriteFile writeFile = new WriteFile(file, true);
+      for (UserScore userScore : data) {
+         writeFile.writeToFile(userScore.getUser());
+         writeFile.writeToFile(userScore.getNumGuesses());
+         writeFile.writeToFile(userScore.getTimeSeconds());
+         writeFile.writeToFile(userScore.getValue());
+      }
+   }
+   
+   public void readFromTxtFile() throws IOException
+   {
+      List<String> list = Files.readAllLines(new File("UserScores.txt").toPath());
+
+      ObservableList<UserScore> obs = FXCollections.observableArrayList();
+      for (int i = 0; i < list.size(); i += 4) {
+         obs.add(new UserScore(list.get(i + 3), list.get(i), list.get(i + 1), list.get(i + 2)));
+      }
+
+      userScoreTv.setItems(obs);
+   }
+   
    public class WriteFile {
 
       private File File;
@@ -246,11 +245,15 @@ public class FXMLControllerScore implements Initializable {
       addHiScoreTable(data, tableView);
    }
 
-   public ObservableList<UserScore> setUserScoreData(TableView tableView) {
-      ObservableList<UserScore> data = FXCollections.observableArrayList(
-              new UserScore(Integer.toString(Total.Score), UserName.User, Integer.toString(Total.NumGuesses), timeTakenField.getText()));
-      addUserScoreTable(data, tableView, buttonPress);
-      return data;
+   public void setUserScoreData(TableView tableView) throws IOException {
+      List<String> list = Files.readAllLines(new File("UserScores.txt").toPath());
+
+      ObservableList<UserScore> obs = FXCollections.observableArrayList();
+      for (int i = 0; i < list.size(); i += 4) {
+         obs.add(new UserScore(list.get(i + 3), list.get(i), list.get(i + 1), list.get(i + 2)));
+      }
+      
+      addUserScoreTable(obs, tableView, buttonPress);
    }
 
    public void setCellValueFactoryHiScoreTable() {
