@@ -6,6 +6,7 @@
 package JavaFXLogoQuiz;
 
 import JavaFXLogoQuiz.FXMLController.UserName;
+import JavaFXLogoQuiz.FXMLControllerScore.UserScore.GetComparator;
 import static com.sun.deploy.cache.Cache.reset;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -45,6 +46,8 @@ import java.io.PrintWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -148,7 +151,12 @@ public class FXMLControllerScore implements Initializable {
          timeTakenField.setText(Integer.toString(TimeSeconds.get()));
          
          ObservableList<UserScore> data = FXCollections.observableArrayList(
-                 new UserScore(Total.Score, UserName.User, Total.NumGuesses, Integer.parseInt(timeTakenField.getText())));
+                 new UserScore(Total.Score, UserName.User, Total.NumGuesses, Integer.parseInt(timeTakenField.getText())) {
+            @Override
+            public int compareTo(UserScore o) {
+               throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+         });
          writeToTxtFile(data);
          setUserScoreData(userScoreTv);
          ObservableList<UserScore> wholeList = readFromTxtFile();
@@ -185,24 +193,39 @@ public class FXMLControllerScore implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                try {
-                  List<String> list = Files.readAllLines(new File("UserScores.txt").toPath());
-
-                  UserScore[] userScore = new UserScore[list.size()/4];
-                  
-                  int count = 0;
-                  for (int i = 0; i < list.size(); i += 4) {
-                     userScore[count] = new UserScore(Integer.parseInt(list.get(i + 3)), list.get(i), Integer.parseInt(list.get(i + 1)), Integer.parseInt(list.get(i + 2)));
-                     count++;
-                  }
-                  java.util.Arrays.sort(userScore);
-                  
-                  ObservableList<UserScore> obs = FXCollections.observableArrayList();
-                  for (UserScore score : userScore) {
-                     obs.add(score);
-                  }
-                  
-                  userScoreTv.setItems(obs);
-                  
+                  UserScore[] userScoreArray = setFilter();
+                  Arrays.sort(userScoreArray);
+                  sortAndSetTable(userScoreArray);
+               } catch (IOException ex) {
+                  Logger.getLogger(FXMLControllerScore.class.getName()).log(Level.SEVERE, null, ex);
+               }
+            }
+         });
+         
+         timeButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+               try {
+                  UserScore[] userScoreArray = setFilter();
+                  UserScore userScore = new UserScore();
+                  GetComparator comparator = userScore.new GetComparator();
+                  Arrays.sort(userScoreArray, comparator.getComparator("time"));
+                  sortAndSetTable(userScoreArray);
+               } catch (IOException ex) {
+                  Logger.getLogger(FXMLControllerScore.class.getName()).log(Level.SEVERE, null, ex);
+               }
+            }
+         });
+         
+         scoreButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+               try {
+                  UserScore[] userScoreArray = setFilter();
+                  UserScore userScore = new UserScore();
+                  GetComparator comparator = userScore.new GetComparator();
+                  Arrays.sort(userScoreArray, comparator.getComparator("score"));
+                  sortAndSetTable(userScoreArray);
                } catch (IOException ex) {
                   Logger.getLogger(FXMLControllerScore.class.getName()).log(Level.SEVERE, null, ex);
                }
@@ -211,6 +234,29 @@ public class FXMLControllerScore implements Initializable {
       } catch (IOException ex) {
          Logger.getLogger(FXMLControllerScore.class.getName()).log(Level.SEVERE, null, ex);
       }
+   }
+   
+   public void sortAndSetTable(UserScore[] userScoreArray)
+   {
+      ObservableList<UserScore> obs = FXCollections.observableArrayList();
+      for (UserScore score : userScoreArray) {
+         obs.add(score);
+      }
+      userScoreTv.setItems(obs);
+   }
+   
+   public UserScore[] setFilter() throws IOException
+   {
+      List<String> list = Files.readAllLines(new File("UserScores.txt").toPath());
+
+      UserScore[] userScoreArray = new UserScore[list.size() / 4];
+
+      int count = 0;
+      for (int i = 0; i < list.size(); i += 4) {
+         userScoreArray[count] = new UserScore(Integer.parseInt(list.get(i + 3)), list.get(i), Integer.parseInt(list.get(i + 1)), Integer.parseInt(list.get(i + 2)));
+         count++;
+      }
+      return userScoreArray;
    }
    
    public void writeToTxtFile(ObservableList<UserScore> data) throws IOException
@@ -233,7 +279,12 @@ public class FXMLControllerScore implements Initializable {
 
       ObservableList<UserScore> obs = FXCollections.observableArrayList();
       for (int i = 0; i < list.size(); i += 4) {
-         obs.add(new UserScore(Integer.parseInt(list.get(i + 3)), list.get(i), Integer.parseInt(list.get(i + 1)), Integer.parseInt(list.get(i + 2))));
+         obs.add(new UserScore(Integer.parseInt(list.get(i + 3)), list.get(i), Integer.parseInt(list.get(i + 1)), Integer.parseInt(list.get(i + 2))) {
+            @Override
+            public int compareTo(UserScore o) {
+               throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+         });
       }
 
       userScoreTv.setItems(obs);
@@ -292,7 +343,12 @@ public class FXMLControllerScore implements Initializable {
 
       ObservableList<UserScore> obs = FXCollections.observableArrayList();
       for (int i = 0; i < list.size(); i += 4) {
-         obs.add(new UserScore(Integer.parseInt(list.get(i + 3)), list.get(i), Integer.parseInt(list.get(i + 1)), Integer.parseInt(list.get(i + 2))));
+         obs.add(new UserScore(Integer.parseInt(list.get(i + 3)), list.get(i), Integer.parseInt(list.get(i + 1)), Integer.parseInt(list.get(i + 2))) {
+            @Override
+            public int compareTo(UserScore o) {
+               throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+         });
       }
       
       addUserScoreTable(obs, tableView, buttonPress);
@@ -350,13 +406,19 @@ public class FXMLControllerScore implements Initializable {
 
    public class UserScore implements Comparable<UserScore>
    {
-
       public SimpleIntegerProperty Value;
       public SimpleStringProperty User;
       public SimpleIntegerProperty NumGuesses;
       public SimpleIntegerProperty TimeSeconds;
-
-      public UserScore(int value, String user, int numGuesses, int timeSeconds) {
+      
+      public UserScore() {
+         this.Value = this.Value;
+         this.User = this.User;
+         this.NumGuesses = this.NumGuesses;
+         this.TimeSeconds = this.TimeSeconds;
+      }
+      
+      public UserScore(Integer value, String user, Integer numGuesses, Integer timeSeconds) {
          this.Value = new SimpleIntegerProperty(value);
          this.User = new SimpleStringProperty(user);
          this.NumGuesses = new SimpleIntegerProperty(numGuesses);
@@ -374,7 +436,42 @@ public class FXMLControllerScore implements Initializable {
 
          return 0;
       }
-
+      
+      public class GetComparator {
+         public Comparator<UserScore> getComparator(String comparator) {
+            if (comparator.equals("time")) {
+               return new Comparator<UserScore>() {
+                  public int compare(UserScore userScore1, UserScore userScore2) {
+                     Integer id1 = userScore1.getTimeSeconds();
+                     Integer id2 = userScore2.getTimeSeconds();
+                     if (id1 == null) {
+                        return id2 == null ? 0 : 1;
+                     }
+                     if (id2 == null) {
+                        return -1;
+                     }
+                     return id1.compareTo(id2);
+                  }
+               };
+            } else if (comparator.equals("score")) {
+               return new Comparator<UserScore>() {
+                  public int compare(UserScore userScore1, UserScore userScore2) {
+                     Integer id1 = userScore1.getValue();
+                     Integer id2 = userScore2.getValue();
+                     if (id1 == null) {
+                        return id2 == null ? 0 : 1;
+                     }
+                     if (id2 == null) {
+                        return -1;
+                     }
+                     return id1.compareTo(id2);
+                  }
+               };
+            }
+            return null;
+         }
+      }
+      
       public int getValue() {
          return Value.get();
       }
@@ -383,15 +480,15 @@ public class FXMLControllerScore implements Initializable {
          return User.get();
       }
 
-      public int getNumGuesses() {
+      public Integer getNumGuesses() {
          return NumGuesses.get();
       }
 
-      public int getTimeSeconds() {
+      public Integer getTimeSeconds() {
          return TimeSeconds.get();
       }
 
-      public void setValue(int value) {
+      public void setValue(Integer value) {
          Value.set(value);
       }
 
@@ -399,11 +496,11 @@ public class FXMLControllerScore implements Initializable {
          User.set(user);
       }
 
-      public void setNumGuesses(int numGuesses) {
+      public void setNumGuesses(Integer numGuesses) {
          NumGuesses.set(numGuesses);
       }
 
-      public void setTimeSeconds(int time) {
+      public void setTimeSeconds(Integer time) {
          TimeSeconds.set(time);
       }
    }
