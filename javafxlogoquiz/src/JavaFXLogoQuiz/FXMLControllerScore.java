@@ -148,7 +148,7 @@ public class FXMLControllerScore implements Initializable {
          timeTakenField.setText(Integer.toString(TimeSeconds.get()));
          
          ObservableList<UserScore> data = FXCollections.observableArrayList(
-                 new UserScore(Integer.toString(Total.Score), UserName.User, Total.NumGuesses, timeTakenField.getText()));
+                 new UserScore(Total.Score, UserName.User, Total.NumGuesses, Integer.parseInt(timeTakenField.getText())));
          writeToTxtFile(data);
          setUserScoreData(userScoreTv);
          ObservableList<UserScore> wholeList = readFromTxtFile();
@@ -187,25 +187,21 @@ public class FXMLControllerScore implements Initializable {
                try {
                   List<String> list = Files.readAllLines(new File("UserScores.txt").toPath());
 
-                  GuessClass[] guessClass = new GuessClass[list.size()/4];
+                  UserScore[] userScore = new UserScore[list.size()/4];
                   
                   int count = 0;
-                  ObservableList<UserScore> obs = FXCollections.observableArrayList();
                   for (int i = 0; i < list.size(); i += 4) {
-                     GuessClass guess = new GuessClass(list.get(i), Integer.parseInt(list.get(i + 1)));
-                     guessClass[count] = guess;
-                     obs.add(new UserScore(list.get(i + 3), guessClass[count].UserName, guessClass[count].NumGuesses, list.get(i + 2)));
+                     userScore[count] = new UserScore(Integer.parseInt(list.get(i + 3)), list.get(i), Integer.parseInt(list.get(i + 1)), Integer.parseInt(list.get(i + 2)));
                      count++;
                   }
-                  java.util.Arrays.sort(guessClass);
+                  java.util.Arrays.sort(userScore);
                   
-                  count = 0;
-                  ObservableList<UserScore> newObs = FXCollections.observableArrayList();
-                  for (int i = 0; i < list.size(); i += 4) {
-                     newObs.add(new UserScore(list.get(i + 3), guessClass[count].UserName, guessClass[count].NumGuesses, list.get(i + 2)));
-                     count++;
+                  ObservableList<UserScore> obs = FXCollections.observableArrayList();
+                  for (UserScore score : userScore) {
+                     obs.add(score);
                   }
-                  userScoreTv.setItems(newObs);
+                  
+                  userScoreTv.setItems(obs);
                   
                } catch (IOException ex) {
                   Logger.getLogger(FXMLControllerScore.class.getName()).log(Level.SEVERE, null, ex);
@@ -215,35 +211,6 @@ public class FXMLControllerScore implements Initializable {
       } catch (IOException ex) {
          Logger.getLogger(FXMLControllerScore.class.getName()).log(Level.SEVERE, null, ex);
       }
-   }
-
-   public class GuessClass implements Comparable<GuessClass>
-   {
-      public String UserName;
-      public int NumGuesses;
-      
-      public GuessClass(String userName, int numGuesses)
-      {
-         UserName = userName;
-         NumGuesses = numGuesses;
-      }
-      
-      public int compareTo(GuessClass other) {
-         if (other.getNumGuesses() > this.NumGuesses) {
-            return -1;
-         }
-
-         if (other.getNumGuesses() < this.NumGuesses) {
-            return 1;
-         }
-
-         return 0;
-      }
-      
-      public int getNumGuesses() {
-         return NumGuesses;
-      }
-      
    }
    
    public void writeToTxtFile(ObservableList<UserScore> data) throws IOException
@@ -255,8 +222,8 @@ public class FXMLControllerScore implements Initializable {
       for (UserScore userScore : data) {
          writeFile.writeToFile(userScore.getUser());
          writeFile.writeToFile(Integer.toString(userScore.getNumGuesses()));
-         writeFile.writeToFile(userScore.getTimeSeconds());
-         writeFile.writeToFile(userScore.getValue());
+         writeFile.writeToFile(Integer.toString(userScore.getTimeSeconds()));
+         writeFile.writeToFile(Integer.toString(userScore.getValue()));
       }
    }
    
@@ -266,7 +233,7 @@ public class FXMLControllerScore implements Initializable {
 
       ObservableList<UserScore> obs = FXCollections.observableArrayList();
       for (int i = 0; i < list.size(); i += 4) {
-         obs.add(new UserScore(list.get(i + 3), list.get(i), Integer.parseInt(list.get(i + 1)), list.get(i + 2)));
+         obs.add(new UserScore(Integer.parseInt(list.get(i + 3)), list.get(i), Integer.parseInt(list.get(i + 1)), Integer.parseInt(list.get(i + 2))));
       }
 
       userScoreTv.setItems(obs);
@@ -325,7 +292,7 @@ public class FXMLControllerScore implements Initializable {
 
       ObservableList<UserScore> obs = FXCollections.observableArrayList();
       for (int i = 0; i < list.size(); i += 4) {
-         obs.add(new UserScore(list.get(i + 3), list.get(i), Integer.parseInt(list.get(i + 1)), list.get(i + 2)));
+         obs.add(new UserScore(Integer.parseInt(list.get(i + 3)), list.get(i), Integer.parseInt(list.get(i + 1)), Integer.parseInt(list.get(i + 2))));
       }
       
       addUserScoreTable(obs, tableView, buttonPress);
@@ -381,26 +348,34 @@ public class FXMLControllerScore implements Initializable {
       });
    }
 
-   public class UserScore {
+   public class UserScore implements Comparable<UserScore>
+   {
 
-      public SimpleStringProperty Value;
+      public SimpleIntegerProperty Value;
       public SimpleStringProperty User;
       public SimpleIntegerProperty NumGuesses;
-      public SimpleStringProperty TimeSeconds;
+      public SimpleIntegerProperty TimeSeconds;
 
-      public UserScore(String value, String user, int numGuesses, String timeSeconds) {
-         this.Value = new SimpleStringProperty(value);
+      public UserScore(int value, String user, int numGuesses, int timeSeconds) {
+         this.Value = new SimpleIntegerProperty(value);
          this.User = new SimpleStringProperty(user);
          this.NumGuesses = new SimpleIntegerProperty(numGuesses);
-         this.TimeSeconds = new SimpleStringProperty(timeSeconds);
+         this.TimeSeconds = new SimpleIntegerProperty(timeSeconds);
       }
       
-      public UserScore(int numGuesses)
-      {
-         this.NumGuesses = new SimpleIntegerProperty(numGuesses);
+      public int compareTo(UserScore other) {
+         if (other.getNumGuesses() > this.NumGuesses.get()) {
+            return -1;
+         }
+
+         if (other.getNumGuesses() < this.NumGuesses.get()) {
+            return 1;
+         }
+
+         return 0;
       }
 
-      public String getValue() {
+      public int getValue() {
          return Value.get();
       }
 
@@ -412,11 +387,11 @@ public class FXMLControllerScore implements Initializable {
          return NumGuesses.get();
       }
 
-      public String getTimeSeconds() {
+      public int getTimeSeconds() {
          return TimeSeconds.get();
       }
 
-      public void setValue(String value) {
+      public void setValue(int value) {
          Value.set(value);
       }
 
@@ -428,7 +403,7 @@ public class FXMLControllerScore implements Initializable {
          NumGuesses.set(numGuesses);
       }
 
-      public void setTimeSeconds(String time) {
+      public void setTimeSeconds(int time) {
          TimeSeconds.set(time);
       }
    }
