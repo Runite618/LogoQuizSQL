@@ -46,3 +46,15 @@ joker
 0
 2
 0
+runite
+4
+17
+6
+Runite
+0
+1
+0
+copycat
+0
+3
+0

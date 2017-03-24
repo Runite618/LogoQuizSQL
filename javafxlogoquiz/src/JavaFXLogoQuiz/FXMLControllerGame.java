@@ -36,7 +36,7 @@ import javafx.util.Duration;
 import static javafx.util.Duration.INDEFINITE;
 
 public class FXMLControllerGame implements Initializable {
-
+   
     @FXML
     private Button submit;
 

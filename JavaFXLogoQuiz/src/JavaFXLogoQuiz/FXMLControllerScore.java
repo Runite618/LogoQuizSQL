@@ -147,6 +147,7 @@ public class FXMLControllerScore implements Initializable {
    public void initialize(URL url, ResourceBundle rb) {
       try {
          // TODO
+         // Displays main elements of page
          numGuessesField.setText(Integer.toString(Total.NumGuesses));
          timeTakenField.setText(Integer.toString(TimeSeconds.get()));
          scoreButton.setVisible(false);
@@ -162,6 +163,7 @@ public class FXMLControllerScore implements Initializable {
          setUserScoreData(userScoreTv);
          ObservableList<UserScore> wholeList = readFromTxtFile();
          
+         //When button is pressed
          displayScore.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -191,6 +193,7 @@ public class FXMLControllerScore implements Initializable {
             changeScene(root);
          });
          
+         // The following three buttons are filter buttons
          guessButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -238,6 +241,7 @@ public class FXMLControllerScore implements Initializable {
       }
    }
    
+   // Transfers a list into an array and then sets the tableView
    public void sortAndSetTable(UserScore[] userScoreArray)
    {
       ObservableList<UserScore> obs = FXCollections.observableArrayList();
@@ -247,6 +251,7 @@ public class FXMLControllerScore implements Initializable {
       userScoreTv.setItems(obs);
    }
    
+   // Set filter method
    public UserScore[] setFilter() throws IOException
    {
       List<String> list = Files.readAllLines(new File("UserScores.txt").toPath());
@@ -385,7 +390,8 @@ public class FXMLControllerScore implements Initializable {
 
       tableView.setItems(data);
    }
-
+   
+   // This is for changing the color of the score ranges table depending on how well you've done
    private void setRowFactory() {
       tableView.setRowFactory(tv -> new TableRow<HiScore>() {
 
@@ -406,6 +412,7 @@ public class FXMLControllerScore implements Initializable {
       });
    }
 
+   // A class implementing Comparable which means that filtering can be implemented
    public class UserScore implements Comparable<UserScore>
    {
       public SimpleIntegerProperty Value;
