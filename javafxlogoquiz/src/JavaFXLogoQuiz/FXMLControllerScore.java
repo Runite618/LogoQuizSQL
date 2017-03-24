@@ -149,6 +149,7 @@ public class FXMLControllerScore implements Initializable {
          // TODO
          numGuessesField.setText(Integer.toString(Total.NumGuesses));
          timeTakenField.setText(Integer.toString(TimeSeconds.get()));
+         scoreButton.setVisible(false);
          
          ObservableList<UserScore> data = FXCollections.observableArrayList(
                  new UserScore(Total.Score, UserName.User, Total.NumGuesses, Integer.parseInt(timeTakenField.getText())) {
@@ -171,6 +172,7 @@ public class FXMLControllerScore implements Initializable {
                      setHiScoreData(tableView);
                      setUserScoreData(userScoreTv);
                      readFromTxtFile();
+                     scoreButton.setVisible(true);
                   } catch (IOException ex) {
                      Logger.getLogger(FXMLControllerScore.class.getName()).log(Level.SEVERE, null, ex);
                   }
