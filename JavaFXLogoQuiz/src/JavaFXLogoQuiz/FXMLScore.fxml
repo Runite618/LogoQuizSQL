@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="644.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXLogoQuiz.FXMLControllerScore">
+<AnchorPane id="AnchorPane" prefHeight="644.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXLogoQuiz.FXMLControllerScore">
     <stylesheets>
         <URL value="@fxmlscore.css" />
     </stylesheets>
@@ -25,7 +28,7 @@
           <TableColumn fx:id="value" prefWidth="411.0" text="Value" />
         </columns>
       </TableView>
-      <Button fx:id="reset" layoutX="500.0" layoutY="29.0" mnemonicParsing="false" text="Reset" />
+      <Button fx:id="reset" layoutX="500.0" layoutY="21.0" mnemonicParsing="false" text="Reset" />
       <HBox fx:id="numGuessesBox" layoutX="75.0" layoutY="28.0" prefHeight="30.0" prefWidth="322.0">
          <children>
             <Label fx:id="numCorrectGuesses" text="Number of Correct Guesses: " />
@@ -33,7 +36,7 @@
          </children>
       </HBox>
       <Label layoutX="472.0" layoutY="96.0" />
-      <TextArea layoutX="417.0" layoutY="72.0" prefHeight="83.0" prefWidth="166.0" text="Score per logo:&#10;Easy = 1&#10;Medium = 2&#10;Hard = 3" />
+      <TextArea layoutX="417.0" layoutY="60.0" prefHeight="95.0" prefWidth="166.0" text="Score per logo:&#10;Easy = 1&#10;Medium = 2&#10;Hard = 3" />
       <HBox fx:id="timeTakenBox" layoutX="76.0" layoutY="69.0" prefHeight="30.0" prefWidth="322.0">
          <children>
             <Label fx:id="timeTakenLabel" text="Time taken for logo quiz (s): " />
