@@ -151,18 +151,17 @@ public class FXMLControllerScore implements Initializable {
             numGuessesField.setText(Integer.toString(Total.NumGuesses));
             timeTakenField.setText(Integer.toString(TimeSeconds.get()));
             
-            ObservableList<UserScore> data = FXCollections.observableArrayList();
             Driver driver = new com.mysql.jdbc.Driver();
             DriverManager.registerDriver(driver);
 
             Properties properties = new Properties();
             properties.setProperty("user", "root");
-            properties.setProperty("password", "");
+            properties.setProperty("password", "chihun");
             
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/logo_quiz", properties);
             DatabaseMetaData dbm = con.getMetaData();
             ResultSet tables = dbm.getTables(null, null, "logo_quiz", null);
-            setUserScoreData(userScoreTv, data, con, tables);
+            setUserScoreData(userScoreTv, con, tables);
             con.close();
 
             displayScore.setOnAction(new EventHandler<ActionEvent>() {
@@ -177,7 +176,7 @@ public class FXMLControllerScore implements Initializable {
                             buttonPress = true;
                             formatTextField();
                             setHiScoreData(tableView);
-                            setUserScoreData(userScoreTv, data, con, tables);
+                            setUserScoreData(userScoreTv, con, tables);
                             con.close();
                         } catch (SQLException ex) {
                             Logger.getLogger(FXMLControllerScore.class.getName()).log(Level.SEVERE, null, ex);
@@ -204,14 +203,14 @@ public class FXMLControllerScore implements Initializable {
                 }
             });
             
-            guessButton.setOnAction(new EventHandler<ActionEvent>() {
-                
-                @Override
-                public void handle(ActionEvent event) {
-                    ObservableList<UserScore> sortedByGuess = Sort(data);
-                    addUserScoreTable(sortedByGuess, userScoreTv, buttonPress);
-                }
-            });
+//            guessButton.setOnAction(new EventHandler<ActionEvent>() {
+//                
+//                @Override
+//                public void handle(ActionEvent event) {
+//                    ObservableList<UserScore> sortedByGuess = Sort(data);
+//                    addUserScoreTable(sortedByGuess, userScoreTv);
+//                }
+//            });
         } catch (SQLException ex) {
             Logger.getLogger(FXMLControllerScore.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -247,7 +246,9 @@ public class FXMLControllerScore implements Initializable {
         addHiScoreTable(data, tableView);
     }
     
-    public void setUserScoreData(TableView tableView, ObservableList<UserScore> data, Connection con, ResultSet tables) throws SQLException {
+    public void setUserScoreData(TableView tableView, Connection con, ResultSet tables) throws SQLException {
+        ObservableList<UserScore> data = FXCollections.observableArrayList();
+        
         if (tables.next()) 
         {
             // Table exists
@@ -279,7 +280,7 @@ public class FXMLControllerScore implements Initializable {
 
             data = GetData(rs, data);
         }
-        addUserScoreTable(data, tableView, buttonPress);
+        addUserScoreTable(data, tableView);
     }
     
     public void CreateTable(Connection con) throws SQLException
@@ -356,7 +357,7 @@ public class FXMLControllerScore implements Initializable {
         setRowFactory();
     }
     
-    public void addUserScoreTable(ObservableList<UserScore> data, TableView tableView, boolean buttonPress)
+    public void addUserScoreTable(ObservableList<UserScore> data, TableView tableView)
     {
         setCellValueFactoryUserScoreTable();
         
