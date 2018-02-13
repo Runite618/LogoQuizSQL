@@ -160,7 +160,8 @@ public class FXMLControllerScore implements Initializable {
 
             Properties properties = new Properties();
             properties.setProperty("user", "root");
-            properties.setProperty("password", "chihun");
+            properties.setProperty("password", "root");
+            properties.setProperty("useSSL", "false");
 
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/logo_quiz", properties);
             DatabaseMetaData dbm = con.getMetaData();
